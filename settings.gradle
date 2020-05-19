@@ -1,0 +1,5 @@
+rootProject.name = 'effectiveJava'
+include 'lambda'
+include 'basics'
+include 'katas'
+

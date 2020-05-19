@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.n2.TestReverseInteger" tests="2" skipped="0" failures="0" errors="0" timestamp="2020-05-19T18:53:03" hostname="Rajeshs-MBP.broadband" time="0.08">
+  <properties/>
+  <testcase name="test123()" classname="com.n2.TestReverseInteger" time="0.078"/>
+  <testcase name="test2020()" classname="com.n2.TestReverseInteger" time="0.001"/>
+  <system-out><![CDATA[
+ number is 
+, quotient is 0,  remainder is 0 and result is 1 
+ number is 
+, quotient is 0,  remainder is 0 and result is 2 ]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
