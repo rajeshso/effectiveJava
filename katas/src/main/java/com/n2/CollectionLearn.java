@@ -1,17 +1,28 @@
 package com.n2;
 
+import static java.math.BigDecimal.ZERO;
+
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.w3c.dom.ls.LSOutput;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 public class CollectionLearn {
-  public void computeIfAbsent() {
-    Map<String, Integer> stringLength = new HashMap<>();
-    //stringLength.put("John", 5);
-    final Integer johnLen = stringLength.computeIfAbsent("John", s -> s.length());
-    System.out.printf("\n johnLen %d", johnLen);
-  }
+
+  List<Operation> operations = List.of(
+      new Operation("123", new BigDecimal("10")),
+      new Operation("456", new BigDecimal("1200")),
+      new Operation("123", new BigDecimal("-4")),
+      new Operation("123", new BigDecimal("8")),
+      new Operation("456", new BigDecimal("800")),
+      new Operation("456", new BigDecimal("-1500")),
+      new Operation("123", new BigDecimal("2")),
+      new Operation("123", new BigDecimal("-6.5")),
+      new Operation("456", new BigDecimal("-600"))
+  );
+
   //https://dzone.com/articles/one-method-to-rule-them-all-mapmerge
   public static void compute() {
     //old way
@@ -29,21 +40,21 @@ public class CollectionLearn {
     //new way 1
     map.clear();
     words.forEach(word -> {
-      map.putIfAbsent(word,0);
-      map.put(word, map.get(word)+1);
+      map.putIfAbsent(word, 0);
+      map.put(word, map.get(word) + 1);
     });
     System.out.println(map);
     //new way 2
     map.clear();
-    words.forEach( word -> {
+    words.forEach(word -> {
       map.putIfAbsent(word, 0);
-      map.computeIfPresent(word, (w, count)-> count+1);
+      map.computeIfPresent(word, (w, count) -> count + 1);
     });
     System.out.println(map);
     //new way 3
     map.clear();
     words.forEach(word -> {
-      map.compute(word, (w, count) -> count==null? 0: count+1);
+      map.compute(word, (w, count) -> count == null ? 0 : count + 1);
     });
     System.out.println(map);
     //new way 4
@@ -56,5 +67,49 @@ public class CollectionLearn {
 
   public static void main(String[] args) {
     compute();
+    new CollectionLearn().computeBalance();
+  }
+
+  public void computeIfAbsent() {
+    Map<String, Integer> stringLength = new HashMap<>();
+    //stringLength.put("John", 5);
+    final Integer johnLen = stringLength.computeIfAbsent("John", s -> s.length());
+    System.out.printf("\n johnLen %d", johnLen);
+  }
+
+  private void computeBalance() {
+    var balances = new HashMap<String, BigDecimal>(10);
+    //slightly older way
+    operations.forEach(operation -> {
+      final String key = operation.accountNumber;
+      final BigDecimal value = operation.amount;
+      balances.putIfAbsent(key, ZERO);
+      balances.computeIfPresent(key, (acc, bal) -> bal.add(value));
+    });
+    System.out.println(balances);
+    //new way 2
+    balances.clear();
+    operations.forEach(operation -> {
+      final String key = operation.accountNumber;
+      final BigDecimal value = operation.amount;
+      balances.merge(key, value, (count, newValue) -> count.add(newValue));
+    });
+    System.out.println(balances);
+    //new way 3
+    balances.clear();
+    operations.forEach(operation -> {
+      final String key = operation.accountNumber;
+      final BigDecimal value = operation.amount;
+      balances.merge(key, value, BigDecimal::add);
+    });
+    System.out.println(balances);
+  }
+
+  @AllArgsConstructor
+  @Getter
+  private class Operation {
+
+    private final String accountNumber;
+    private final BigDecimal amount;
   }
 }
