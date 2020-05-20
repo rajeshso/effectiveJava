@@ -72,6 +72,22 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
+### Gradle template
+.gradle
+/build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
+# gradle/wrapper/gradle-wrapper.properties
+
 ### Java template
 # Compiled class file
 *.class
@@ -96,3 +112,17 @@ fabric.properties
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+basics/build/generated/
+basics/build/tmp/compileJava/
+basics/src/main/resources/
+basics/src/test/
+katas/build/generated/
+katas/build/tmp/compileJava/
+katas/build/tmp/compileTestJava/
+katas/src/main/resources/
+katas/src/test/resources/
+lambda/build/generated/
+lambda/build/tmp/compileJava/
+lambda/src/main/resources/
+lambda/src/test/
+src/

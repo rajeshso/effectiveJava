@@ -25,7 +25,7 @@ class UserKey {
     if (!(o instanceof UserKey)) {
       return false;
     }
-
+    //42FORYOU manning
     UserKey userKey = (UserKey) o;
 
     if (!firstName.equals(userKey.firstName)) {
