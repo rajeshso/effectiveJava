@@ -1,11 +1,15 @@
 package com.n2;
 
+import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -66,8 +70,9 @@ public class CollectionLearn {
   }
 
   public static void main(String[] args) {
-    compute();
-    new CollectionLearn().computeBalance();
+  //  compute();
+  //  new CollectionLearn().computeBalance();
+    new CollectionLearn().computeQuants();
   }
 
   public void computeIfAbsent() {
@@ -103,6 +108,22 @@ public class CollectionLearn {
       balances.merge(key, value, BigDecimal::add);
     });
     System.out.println(balances);
+  }
+
+  private void computeQuants() {
+    BigDecimal sum = operations.stream().map(op-> op.amount).reduce(BigDecimal::add).orElse(ZERO);
+    BigDecimal max = operations.stream().map(op-> op.amount).reduce(BigDecimal::max).orElse(ZERO);
+    BigDecimal min = operations.stream().map(op-> op.amount).reduce(BigDecimal::min).orElse(ZERO);;
+    BigDecimal mean = sum.divide(new BigDecimal(operations.size()),2, RoundingMode.HALF_UP);
+    BigDecimal median = ZERO;
+    List<BigDecimal> topTwo = operations.stream().map(op-> op.amount).sorted().limit(2l).collect(
+        Collectors.toList());
+    System.out.printf("\n Sum = %s ",sum);
+    System.out.printf("\n Max = %s ",max);
+    System.out.printf("\n Min = %s ",min);
+    System.out.printf("\n Mean = %s ",mean);
+    System.out.printf("\n Median = %s ",median);
+    System.out.printf("\n Top two = %s ", topTwo);
   }
 
   @AllArgsConstructor
