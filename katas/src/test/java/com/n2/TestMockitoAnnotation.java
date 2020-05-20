@@ -53,7 +53,6 @@ public class TestMockitoAnnotation {
     }).isInstanceOf(RuntimeException.class)
         .hasMessageContaining("Sorry");
 
-    System.out.println(mockedList.get(1));
 
     //following prints "null" because get(999) was not stubbed
     System.out.println(mockedList.get(999));
