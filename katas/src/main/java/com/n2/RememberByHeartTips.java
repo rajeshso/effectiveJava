@@ -22,7 +22,8 @@ public class RememberByHeartTips {
     String s = "Rajesh";
     System.out.println("s.substring(0) for "+ s + " = " +s.substring(0));
     System.out.println("s.substring(2,4) for "+ s + " = " +s.substring(2,4));
-    int[] arrayCopy = Arrays.copyOf(new int[]{1,2,3,4,5}, 1);
+    int[] arrayCopy = Arrays.copyOf(new int[]{1,2,3,4,5}, 2);
+    System.out.println("Arrays.copyOf");
     print(arrayCopy);
     int[] src = new int[]{1,2,3,4,5};
     int[] dest = new int[3];
