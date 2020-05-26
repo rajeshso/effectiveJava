@@ -29,6 +29,8 @@ public class RememberByHeartTips {
     int[] dest = new int[3];
     System.arraycopy(src,2,dest, 2,1);
     print(dest);
+    //2%5 = 2
+    //When there is a smaller numerator, then the remainder is the numerator and the quotient is 0
   }
   private static void print(int[] a) {
     System.out.println("\n");
