@@ -1,6 +1,11 @@
 package com.n2.trees;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public interface OrderHandler {
+    Map<Long, Order> orders = new HashMap<>();
+
     void addOrder(Order order);
 
     void modifyOrder(OrderModification orderModification);
