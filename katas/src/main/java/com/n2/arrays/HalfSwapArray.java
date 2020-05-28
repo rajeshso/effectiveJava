@@ -1,5 +1,7 @@
 package com.n2.arrays;
 
+import java.util.Arrays;
+
 public class HalfSwapArray {
   public static int[] solution(int[] s) {
     int[] result = new int[s.length];
@@ -14,10 +16,6 @@ public class HalfSwapArray {
     return result;
   }
   private static void print(int[] a) {
-    System.out.println("\n");
-    for(int i=0;i<a.length;i++) {
-      System.out.print(a[i]+" ,");
-    }
-    System.out.println("\n");
+    System.out.println(Arrays.toString(a));
   }
 }

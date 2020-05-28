@@ -25,10 +25,6 @@ public class RemoveDups {
     return result1;
   }
   private static void print(int[] a) {
-    System.out.println("\n");
-    for(int i=0;i<a.length;i++) {
-      System.out.print(a[i]+" ,");
-    }
-    System.out.println("\n");
+    System.out.println(Arrays.toString(a));
   }
 }

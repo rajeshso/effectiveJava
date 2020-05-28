@@ -2,7 +2,6 @@ package com.n2.arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.n2.arrays.Diagram;
 import org.junit.jupiter.api.Test;
 
 public class TestDiagram {
