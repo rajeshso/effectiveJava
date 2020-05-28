@@ -19,6 +19,6 @@ public interface OrderHandler {
      * of your OrderHandler implementation.
      */
     static OrderHandler createInstance() {
-        return null;
+        return new InMemoryOrderHandler();
     }
 }
