@@ -13,7 +13,7 @@ public class TestInMemoryOrderHandler {
     InMemoryOrderHandler inMemoryOrderHandler = new InMemoryOrderHandler();
     Order order = new Order(1, "MSFT", BUY, 10, 5);
     inMemoryOrderHandler.addOrder(order);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet())
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet())
         .containsExactly(entry(1L, order));
   }
 
@@ -25,9 +25,9 @@ public class TestInMemoryOrderHandler {
 
     inMemoryOrderHandler.addOrder(order1);
     inMemoryOrderHandler.addOrder(order2);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet())
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet())
         .containsExactly(entry(1L, order1), entry(2L, order2));
-    assertThat(inMemoryOrderHandler.aggregatedOrderLevelBook.keySet()).containsExactly("MSFT");
+    assertThat(inMemoryOrderHandler.getAggregatedOrderLevelBook().keySet()).containsExactly("MSFT");
   }
 
   @Test
@@ -38,9 +38,9 @@ public class TestInMemoryOrderHandler {
 
     inMemoryOrderHandler.addOrder(order1);
     inMemoryOrderHandler.addOrder(order2);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet())
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet())
         .containsExactly(entry(1L, order1), entry(2L, order2));
-    assertThat(inMemoryOrderHandler.aggregatedOrderLevelBook.keySet())
+    assertThat(inMemoryOrderHandler.getAggregatedOrderLevelBook().keySet())
         .containsExactly("MSFT", "APPL");
   }
 
@@ -51,13 +51,15 @@ public class TestInMemoryOrderHandler {
     OrderModification orderModification = new OrderModification(1, 11, 6);
     inMemoryOrderHandler.addOrder(order);
     inMemoryOrderHandler.modifyOrder(orderModification);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet())
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet())
         .containsExactly(entry(1L, new Order(1, "MSFT", BUY, 11, 6)));
-    assertThat(inMemoryOrderHandler.aggregatedOrderLevelBook).hasSize(1);
-    assertThat(inMemoryOrderHandler.aggregatedOrderLevelBook.get("MSFT").buyAggregatedQuantity
-        .get(11).aggregatedQuantity).isEqualTo(6);
+    assertThat(inMemoryOrderHandler.getAggregatedOrderLevelBook()).hasSize(1);
     assertThat(
-        inMemoryOrderHandler.aggregatedOrderLevelBook.get("MSFT").buyAggregatedQuantity.get(10))
+        inMemoryOrderHandler.getAggregatedOrderLevelBook().get("MSFT").getBuyAggregatedQuantity()
+            .get(11).aggregatedQuantity).isEqualTo(6);
+    assertThat(
+        inMemoryOrderHandler.aggregatedOrderLevelBook.get("MSFT").getBuyAggregatedQuantity()
+            .get(10))
         .isNull();
   }
 
@@ -66,11 +68,11 @@ public class TestInMemoryOrderHandler {
     InMemoryOrderHandler inMemoryOrderHandler = new InMemoryOrderHandler();
     Order order = new Order(1, "MSFT", BUY, 10, 5);
     inMemoryOrderHandler.addOrder(order);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet())
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet())
         .containsExactly(entry(1L, new Order(1, "MSFT", BUY, 10, 5)));
     inMemoryOrderHandler.removeOrder(1);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet()).isEmpty();
-    assertThat(inMemoryOrderHandler.aggregatedOrderLevelBook).isEmpty();
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet()).isEmpty();
+    assertThat(inMemoryOrderHandler.getAggregatedOrderLevelBook()).isEmpty();
   }
 
   @Test
@@ -80,14 +82,14 @@ public class TestInMemoryOrderHandler {
     Order order2 = new Order(2, "MSFT", BUY, 10, 15);
     inMemoryOrderHandler.addOrder(order1);
     inMemoryOrderHandler.addOrder(order2);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet())
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet())
         .containsExactly(entry(1L, new Order(1, "MSFT", BUY, 10, 5)),
             entry(2L, new Order(2, "MSFT", BUY, 10, 15)));
     inMemoryOrderHandler.removeOrder(1);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet())
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet())
         .containsExactly(entry(2L, new Order(2, "MSFT", BUY, 10, 15)));
-    assertThat(inMemoryOrderHandler.aggregatedOrderLevelBook).hasSize(1);
-    assertThat(inMemoryOrderHandler.aggregatedOrderLevelBook).containsKey("MSFT");
+    assertThat(inMemoryOrderHandler.getAggregatedOrderLevelBook()).hasSize(1);
+    assertThat(inMemoryOrderHandler.getAggregatedOrderLevelBook()).containsKey("MSFT");
   }
 
   @Test
@@ -97,14 +99,14 @@ public class TestInMemoryOrderHandler {
     Order order2 = new Order(2, "APPL", BUY, 10, 15);
     inMemoryOrderHandler.addOrder(order1);
     inMemoryOrderHandler.addOrder(order2);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet())
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet())
         .containsExactly(entry(1L, new Order(1, "MSFT", BUY, 10, 5)),
             entry(2L, new Order(2, "APPL", BUY, 10, 15)));
     inMemoryOrderHandler.removeOrder(1);
-    assertThat(inMemoryOrderHandler.orderBook.entrySet())
+    assertThat(inMemoryOrderHandler.getOrderBook().entrySet())
         .containsExactly(entry(2L, new Order(2, "APPL", BUY, 10, 15)));
-    assertThat(inMemoryOrderHandler.aggregatedOrderLevelBook).hasSize(1);
-    assertThat(inMemoryOrderHandler.aggregatedOrderLevelBook).containsKey("APPL");
+    assertThat(inMemoryOrderHandler.getAggregatedOrderLevelBook()).hasSize(1);
+    assertThat(inMemoryOrderHandler.getAggregatedOrderLevelBook()).containsKey("APPL");
   }
 
 }

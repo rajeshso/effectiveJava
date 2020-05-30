@@ -8,6 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class Order {
+
     private final long orderId;
     private final String symbol;
     private final Side side;

@@ -2,14 +2,17 @@ package com.n2.trees;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
+import lombok.NonNull;
 
+@Getter
 public class InMemoryOrderHandler implements OrderHandler {
 
-  final Map<Long, Order> orderBook = new HashMap<>();//ID vs Order
-  final Map<String, AggregatedDepth> aggregatedOrderLevelBook = new HashMap<>();//Symbol vs Book
+  protected final Map<Long, Order> orderBook = new HashMap<>();//ID vs Order
+  protected final Map<String, AggregatedDepth> aggregatedOrderLevelBook = new HashMap<>();//Symbol vs Book
 
   @Override
-  public void addOrder(Order order) {
+  public void addOrder(@NonNull Order order) {
     final String symbol = order.getSymbol();
     orderBook.put(order.getOrderId(), order);
     if (aggregatedOrderLevelBook.containsKey(symbol)) {
@@ -25,7 +28,7 @@ public class InMemoryOrderHandler implements OrderHandler {
   }
 
   @Override
-  public void modifyOrder(OrderModification orderModification) {
+  public void modifyOrder(@NonNull OrderModification orderModification) {
     final long orderId = orderModification.getOrderId();
     if (!orderBook.containsKey(orderId)) {
       return;
@@ -72,7 +75,7 @@ public class InMemoryOrderHandler implements OrderHandler {
   }
 
   @Override
-  public double getCurrentPrice(String symbol, int quantity, Side side) {
+  public double getCurrentPrice(@NonNull String symbol, int quantity, @NonNull Side side) {
     final AggregatedDepth aggregatedDepth = aggregatedOrderLevelBook.get(symbol);
     if (aggregatedDepth == null) {
       return -1.000;

@@ -1,10 +1,11 @@
 package com.n2.trees;
 
 public class ExampleData {
+
   /**
-   * Submits a series of orders for MSFT. The resulting Order Book for MSFT
-   * is the one shown in Table 1 of the ReadMe document.
-   * */
+   * Submits a series of orders for MSFT. The resulting Order Book for MSFT is the one shown in
+   * Table 1 of the ReadMe document.
+   */
   public static void buildExampleOrderBookFromReadMe(OrderHandler orderHandler) {
     orderHandler.addOrder(new Order(1L, "MSFT", Side.SELL, 19, 8));
     orderHandler.addOrder(new Order(2L, "MSFT", Side.SELL, 19, 4));
