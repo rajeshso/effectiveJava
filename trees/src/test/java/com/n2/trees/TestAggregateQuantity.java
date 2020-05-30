@@ -5,24 +5,26 @@ import static org.assertj.core.api.Assertions.entry;
 
 import org.junit.jupiter.api.Test;
 
-public class TestAggregateQuantityUnit {
+public class TestAggregateQuantity {
+
   @Test
   public void addOrderQuantityOf1Unit_should_add1Unit() {
     AggregatedQuantity aggregatedQuantity = new AggregatedQuantity();
-    aggregatedQuantity.addOrderQuantity(1,2);
+    aggregatedQuantity.addOrderQuantity(1, 2);
     assertThat(aggregatedQuantity.aggregatedQuantity).isEqualTo(2);
-    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(Long.valueOf(1), Integer.valueOf(2)));
+    assertThat(aggregatedQuantity.eachOrder)
+        .containsOnly(entry(1L, 2));
   }
 
   @Test
   public void addOrderQuantityOf2Unit_should_add2Unit() {
     AggregatedQuantity aggregatedQuantity = new AggregatedQuantity();
-    aggregatedQuantity.addOrderQuantity(1,2);
-    aggregatedQuantity.addOrderQuantity(4,3);
+    aggregatedQuantity.addOrderQuantity(1, 2);
+    aggregatedQuantity.addOrderQuantity(4, 3);
     assertThat(aggregatedQuantity.aggregatedQuantity).isEqualTo(5);
-    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(Long.valueOf(1), Integer.valueOf(2)),
-        entry(Long.valueOf(4), Integer.valueOf(3))
-        );
+    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(1L, 2),
+        entry(4L, 3)
+    );
   }
 
   @Test
@@ -30,10 +32,10 @@ public class TestAggregateQuantityUnit {
     AggregatedQuantity aggregatedQuantity = new AggregatedQuantity();
     aggregatedQuantity.addOrderQuantity(1,2);
     assertThat(aggregatedQuantity.aggregatedQuantity).isEqualTo(2);
-    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(Long.valueOf(1), Integer.valueOf(2)));
-    aggregatedQuantity.modifyOrderQuantity(1,10);
+    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(1L, 2));
+    aggregatedQuantity.modifyOrderQuantity(1, 10);
     assertThat(aggregatedQuantity.aggregatedQuantity).isEqualTo(10);
-    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(Long.valueOf(1), Integer.valueOf(10)));
+    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(1L, 10));
   }
 
   @Test
@@ -42,10 +44,10 @@ public class TestAggregateQuantityUnit {
     aggregatedQuantity.addOrderQuantity(1,10);
     aggregatedQuantity.addOrderQuantity(2,12);
     assertThat(aggregatedQuantity.aggregatedQuantity).isEqualTo(22);
-    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(Long.valueOf(1), Integer.valueOf(10)), entry(Long.valueOf(2), Integer.valueOf(12)));
-    aggregatedQuantity.modifyOrderQuantity(1,100);
+    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(1L, 10), entry(2L, 12));
+    aggregatedQuantity.modifyOrderQuantity(1, 100);
     assertThat(aggregatedQuantity.aggregatedQuantity).isEqualTo(112);
-    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(Long.valueOf(1), Integer.valueOf(100)), entry(Long.valueOf(2), Integer.valueOf(12)));
+    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(1L, 100), entry(2L, 12));
   }
 
   @Test
@@ -53,7 +55,7 @@ public class TestAggregateQuantityUnit {
     AggregatedQuantity aggregatedQuantity = new AggregatedQuantity();
     aggregatedQuantity.addOrderQuantity(1,2);
     assertThat(aggregatedQuantity.aggregatedQuantity).isEqualTo(2);
-    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(Long.valueOf(1), Integer.valueOf(2)));
+    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(1L, 2));
     aggregatedQuantity.removeOrder(1);
     assertThat(aggregatedQuantity.aggregatedQuantity).isZero();
     assertThat(aggregatedQuantity.eachOrder).isEmpty();
@@ -65,9 +67,9 @@ public class TestAggregateQuantityUnit {
     aggregatedQuantity.addOrderQuantity(1,2);
     aggregatedQuantity.addOrderQuantity(3,5);
     assertThat(aggregatedQuantity.aggregatedQuantity).isEqualTo(7);
-    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(Long.valueOf(1), Integer.valueOf(2)),entry(Long.valueOf(3), Integer.valueOf(5)));
+    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(1L, 2), entry(3L, 5));
     aggregatedQuantity.removeOrder(1);
-    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(Long.valueOf(3), Integer.valueOf(5)));
+    assertThat(aggregatedQuantity.eachOrder).containsOnly(entry(3L, 5));
     assertThat(aggregatedQuantity.aggregatedQuantity).isEqualTo(5);
   }
 

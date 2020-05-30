@@ -6,7 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class TestAggregatedDepthUnit {
+public class TestAggregatedDepth {
 
   @Test
   public void addSellWithOrder_shouldAddDataWithSellAggregatedQuantity() {

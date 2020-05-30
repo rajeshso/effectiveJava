@@ -73,7 +73,12 @@ public class InMemoryOrderHandler implements OrderHandler {
 
   @Override
   public double getCurrentPrice(String symbol, int quantity, Side side) {
-    return 0;
+    final AggregatedDepth aggregatedDepth = aggregatedOrderLevelBook.get(symbol);
+    if (aggregatedDepth == null) {
+      return -1.000;
+    } else {
+      return aggregatedDepth.getCurrentPrice(quantity, side);
+    }
   }
 
 }

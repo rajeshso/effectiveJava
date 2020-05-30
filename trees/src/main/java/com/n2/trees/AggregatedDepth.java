@@ -2,10 +2,14 @@ package com.n2.trees;
 
 import static com.n2.trees.Side.BUY;
 import static com.n2.trees.Side.SELL;
+import static java.math.RoundingMode.HALF_UP;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Comparator.reverseOrder;
 
+import java.math.BigDecimal;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class AggregatedDepth {
@@ -68,6 +72,46 @@ public class AggregatedDepth {
     }
   }
 
+  public double getCurrentPrice(int quantity, Side side) {
+    Iterator<Entry<Integer, AggregatedQuantity>> iterator;
+    if (side == SELL) {
+      return getCurrentPrice(sellAggregatedQuantity
+          .entrySet().iterator(), quantity);
+    } else if (side == BUY) {
+      return getCurrentPrice(buyAggregatedQuantity
+          .entrySet().iterator(), quantity);
+    } else {
+      return OrderHandler.ERROR_CODE;
+    }
+  }
+
+  private double getCurrentPrice(Iterator<Entry<Integer, AggregatedQuantity>> iterator,
+      int quantity) {
+    int availableQuantity = 0;
+    double totalPrice = 0.0;
+    while (iterator.hasNext()) {
+      final Entry<Integer, AggregatedQuantity> priceVsAggQtyEntry = iterator.next();
+      final Integer availablePrice = priceVsAggQtyEntry.getKey();
+      final AggregatedQuantity aggQty = priceVsAggQtyEntry.getValue();
+      int balanceRequired = quantity - availableQuantity;
+      if (balanceRequired > 0) {
+        //if aggQty has the required balance, take as much to availableQuantity and accumulate price
+        int takeQtyAtThisPrice = Math.min(aggQty.aggregatedQuantity, balanceRequired);
+        totalPrice = totalPrice + (takeQtyAtThisPrice * availablePrice);
+        availableQuantity = availableQuantity + takeQtyAtThisPrice;
+      } else {
+        break;
+      }
+    }
+    if (availableQuantity == quantity) {
+      return BigDecimal.valueOf(totalPrice / availableQuantity)
+          .setScale(3, HALF_UP)
+          .doubleValue();
+    } else {
+      return OrderHandler.ERROR_CODE;
+    }
+  }
+
   boolean isEmpty() {
     return buyAggregatedQuantity.isEmpty() && sellAggregatedQuantity.isEmpty();
   }
@@ -79,4 +123,6 @@ public class AggregatedDepth {
         ", sellAggregatedQuantity=" + sellAggregatedQuantity +
         '}';
   }
+
+
 }
