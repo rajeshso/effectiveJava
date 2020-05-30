@@ -1,11 +1,7 @@
 package com.n2.trees;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public interface OrderHandler {
     double ERROR_CODE = -1.000;
-    Map<Long, Order> orders = new HashMap<>();
 
     void addOrder(Order order);
 
