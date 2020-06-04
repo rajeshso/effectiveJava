@@ -3,4 +3,5 @@ include 'lambda'
 include 'basics'
 include 'katas'
 include 'trees'
+include 'concurrency'
 
