@@ -1,8 +1,9 @@
-package com.n2.liveness.deadlock.deadlockSolution;
+package com.n2.liveness.deadlock.deadlockSolution1;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+//Note : this solution can potentially lead to Livelocks when the number of threads are high
 class Philosopher extends Thread {
 
   static int sushiCount = 100_000; //shared variable
@@ -20,16 +21,18 @@ class Philosopher extends Thread {
 
       //pick chopsticks
       firstChopstick.lock();
-      secondChopstick.lock();
+      if (secondChopstick.tryLock()) { // this is the solution
 
-      if (sushiCount > 0) { //eat
-        sushiCount--;
-        System.out.println(this.getName() + " took a piece; remaining sushis is " + sushiCount);
+        if (sushiCount > 0) { //eat
+          sushiCount--;
+          System.out.println(this.getName() + " took a piece; remaining sushis is " + sushiCount);
+        }
+
+        //drop the chopsticks Note: Please unlock in finally block
+        secondChopstick.unlock();
       }
-
-      //drop the chopsticks Note: Please unlock in finally block
-      secondChopstick.unlock();
-      firstChopstick.unlock();
+      firstChopstick
+          .unlock();// this is the solution- release the firstlock if the secondLock could not be accessed
     }
   }
 }
