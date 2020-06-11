@@ -1,5 +1,4 @@
 package com.n2.codility;
-
 public class Equilibirum {
   //O(N)
   public static int solution(int[] s) {
