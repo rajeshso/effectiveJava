@@ -3,7 +3,7 @@ package com.n2.codility;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-
+//https://app.codility.com/programmers/lessons/4-counting_elements/max_counters/
 public class TestMaxCounter {
   @Test
   public void testMaxCounter() {

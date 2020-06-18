@@ -1,7 +1,7 @@
 package com.n2.codility;
 
 import java.util.Arrays;
-
+//https://app.codility.com/programmers/lessons/4-counting_elements/max_counters/
 public class MaxCounter {
   public static int[] solution(int m, int[] a) {
     int len = a.length;

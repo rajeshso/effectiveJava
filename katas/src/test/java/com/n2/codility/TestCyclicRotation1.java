@@ -12,15 +12,19 @@ public class TestCyclicRotation1 {
   public static int[] solution(int[] A, int K) {
     int len = A.length;
     int[] result = new int[A.length];
-
+    for (int i = 0; i < len; i++) {
+      int currentIndex = i;
+      int newIndex = (currentIndex + K) % len;
+      result[newIndex] = A[currentIndex];
+    }
     System.out.println(Arrays.toString(result));
     return result;
   }
 
   @Test
-  public void testCycleRotate5(String[] args) {
+  public void testCycleRotate5() {
     int[] arr = {5, 3, 4, 1, 2};
-    assertThat(solution(arr, 5)).isEqualTo(arr);
+    assertThat(solution(arr, 5)).isEqualTo(new int[]{5, 3, 4, 1, 2});
   }
 
   @Test

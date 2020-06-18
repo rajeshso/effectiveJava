@@ -7,6 +7,7 @@ import java.util.Stack;
 //Time start :19:30
 //Time pause: 20:01
 //Time restart : 20:35
+//https://app.codility.com/programmers/lessons/7-stacks_and_queues/fish/
 public class VoraciousFish {
 
 
@@ -73,11 +74,11 @@ public class VoraciousFish {
     return stack.size()+survivors;
   }
   public static void main(String[] args) {
-    int[] weight = {4,3,2,1,5};
-    int[] directions = {0,1,0,0,0};
-    System.out.println(solution1(weight, directions));
-    weight = new int[]{4,8,2,6,7};
-    directions = new int[]{0,1,0,0,0};
+    int[] weight = {4, 3, 2, 1, 5};
+    int[] directions = {0, 1, 0, 0, 0};
+    System.out.println(solution(weight, directions));
+    weight = new int[]{4, 8, 2, 6, 7};
+    directions = new int[]{0, 1, 0, 0, 0};
     System.out.println(solution1(weight, directions));
   }
 }
