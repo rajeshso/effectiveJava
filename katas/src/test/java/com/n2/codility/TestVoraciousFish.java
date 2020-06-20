@@ -20,16 +20,17 @@ public class TestVoraciousFish {
       int direction = B[i];
       if (stack.isEmpty() && direction == left) {
         survivors++;
-      } else if (direction == left) {
-        stack.push(weight);
       } else if (direction == right) {
-        //fight
-        while (!stack.isEmpty()) {
-          if (stack.peek() < weight) {
-            stack.pop();
-          } else {
-            break;
-          }
+        stack.push(weight);
+      } else { // weight left.. start the fight
+        int fishOutOfStack = stack.isEmpty() ? -1 : stack.pop();
+        while (fishOutOfStack != -1 && fishOutOfStack < weight) {
+          fishOutOfStack = stack.isEmpty() ? -1 : stack.pop();
+        }
+        if (fishOutOfStack == -1) {
+          survivors++;
+        } else {
+          stack.push(fishOutOfStack);
         }
       }
     }
@@ -40,6 +41,7 @@ public class TestVoraciousFish {
   public void testFish() {
     int[] A = {4, 3, 2, 1, 5};
     int[] B = {0, 1, 0, 0, 0};
-    assertThat(solution(A, B)).isEqualTo(2);
+    final int result = solution(A, B);
+    assertThat(result).isEqualTo(2);
   }
 }
