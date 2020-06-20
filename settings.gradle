@@ -4,4 +4,5 @@ include 'basics'
 include 'katas'
 include 'trees'
 include 'concurrency'
+include 'concurrency2'
 

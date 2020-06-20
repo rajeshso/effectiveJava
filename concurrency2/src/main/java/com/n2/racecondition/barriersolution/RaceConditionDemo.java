@@ -6,7 +6,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 //problem: Every time this is executed, the order of threads is different and the result is different
-//soultion: Barrier - Synchronize the actions and Correct order of Add and Double
+//solution: Barrier - Synchronize the actions and Correct order of Add and Double
 //Huddle the related threads together, like how players of the team huddle to their respective teams
 class Shopper extends Thread {
 
