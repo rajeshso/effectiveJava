@@ -1,4 +1,4 @@
-package com.n2.ubs;
+package com.n2.misc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,7 +6,12 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 
-public class NodeTest {
+public class DeepCopyTest {
+
+}
+
+//TODO: Equals and Hashcode does not work
+class NodeTest {
 
   @Test
   public void testThreeNodesDeepCopy() {
