@@ -1,4 +1,4 @@
-package com.n2.misc;
+package com.n2.excercises;
 
 import java.util.Arrays;
 
