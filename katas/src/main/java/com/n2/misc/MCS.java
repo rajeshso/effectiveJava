@@ -16,7 +16,7 @@ public class MCS {
       List<String> result = new LinkedList<>();
       for (List<String> mclds : ls) {
         Collections.sort(mclds);
-        if (mclds.isEmpty()) {
+        if (result.isEmpty()) {
           result.add(mclds.get(i));//try each in turn
         } else {
           List<String> common = new LinkedList<>(result); //AB
@@ -35,9 +35,15 @@ public class MCS {
   }
 
   public static void main(String[] args) {
-    List<List<String>> testList = new ArrayList<>(
+    List<List<String>> testList1 = new ArrayList<>(
         List.of(new ArrayList<>(List.of("A", "B")), new ArrayList<>(List.of("B")),
             new ArrayList<>(List.of("A", "C"))));
-    System.out.println(mcs(testList));
+    List<List<String>> testList2 = new ArrayList<>(
+        List.of(new ArrayList<>(List.of("A")), new ArrayList<>(List.of("D", "C")),
+            new ArrayList<>(List.of("B"))));
+    List<List<String>> testList3 = new ArrayList<>(
+        List.of(new ArrayList<>(List.of("A", "C")), new ArrayList<>(List.of("C", "D")),
+            new ArrayList<>(List.of("C", "F"))));
+    System.out.println(mcs(testList3));
   }
 }
