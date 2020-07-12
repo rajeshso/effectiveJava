@@ -8,7 +8,13 @@ package com.n2.excercises;
  * catDog("catdog") → true catDog("catcat") → false catDog("1cat1cadodog") → true
  */
 public class CatsAndDogs {
+  public void a() {
 
+  }
+  public void b() {
+    a();
+    this.a();
+  }
   public static boolean catDog(String str) {
     int catBalanced = 0;
     int len = str.length();

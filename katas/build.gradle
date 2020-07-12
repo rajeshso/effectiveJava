@@ -11,6 +11,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.12'
+    compile 'joda-time:joda-time:2.10.6'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
     testCompileOnly 'org.projectlombok:lombok:1.18.12'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.12'
