@@ -81,6 +81,8 @@ class Node {
     }
     return newNode;
   }
+
+
 }
 
 //Find logs between two dates

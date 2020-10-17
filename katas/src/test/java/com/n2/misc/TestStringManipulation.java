@@ -2,6 +2,7 @@ package com.n2.misc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TestStringManipulation {
@@ -99,7 +100,7 @@ public class TestStringManipulation {
   }
 
   //Which three two-word phrases occur the most in the text?
-  @Test
+  @Disabled
   public void testThreeFrequentTwoWords() {
     StringManipulation l = new StringManipulation("A A A A A A B B B B B B C C C C C C");
     assertThat(l.threeFrequent2Words()).contains("a a","b b", "c c");
