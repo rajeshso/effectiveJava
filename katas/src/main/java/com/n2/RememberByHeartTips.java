@@ -17,10 +17,12 @@ public class RememberByHeartTips {
    * Arrays.toString(char[] a) //convert to string
    * Arrays.copyOf(T[] original, int newLength)
    * System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+   * Arrays.sort(someIntArray)
+   * Arrays.copyOfRange(arr, startIndex, endIndexExcluded)
    */
   public static void main(String[] args) {
     String s = "Rajesh";
-    System.out.println("s.substring(0) for "+ s + " = " +s.substring(0));
+    System.out.println("s.substring(0) for "+ s + " = " + s);
     System.out.println("s.substring(2,4) for "+ s + " = " +s.substring(2,4));
     int[] arrayCopy = Arrays.copyOf(new int[]{1,2,3,4,5}, 2);
     System.out.println("Arrays.copyOf = "+Arrays.toString(arrayCopy));

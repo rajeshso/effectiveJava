@@ -13,9 +13,11 @@ public class FindMissingDigit {
     A = new int[] {1, 2, 3};
     System.out.println(new TestJava1().solution(A));*/
     A = new int[]{-1,-3};
+    int[] B = {7,6,4,3,3,4,9};
+    System.out.println("unique array = "+ Arrays.toString(unique_array(B)));
     System.out.println(new FindMissingDigit().solution1(A));
   }
-  static int solution(int a[])
+  static int solution(int[] a)
   {
     a = unique_array(a);
     int n = a.length;
@@ -78,18 +80,18 @@ public class FindMissingDigit {
       System.out.println("\n"+missingNumber + " is the missingNumber");
     return missingNumber;
     }
-  static int[] unique_array(int[] my_array)
+/*  static int[] unique_array(int[] data)
   {
     System.out.println("Original Array : ");
 
-    for (int i = 0; i < my_array.length; i++)
+    for (int i = 0; i < data.length; i++)
     {
-      System.out.print(my_array[i]+"\t");
+      System.out.print(data[i]+"\t");
     }
 
     //Assuming all elements in input array are unique
 
-    int no_unique_elements = my_array.length;
+    int no_unique_elements = data.length;
 
     //Comparing each element with all other elements
 
@@ -99,11 +101,11 @@ public class FindMissingDigit {
       {
         //If any two elements are found equal
 
-        if(my_array[i] == my_array[j])
+        if(data[i] == data[j])
         {
           //Replace duplicate element with last unique element
 
-          my_array[j] = my_array[no_unique_elements-1];
+          data[j] = data[no_unique_elements-1];
 
           no_unique_elements--;
 
@@ -112,9 +114,9 @@ public class FindMissingDigit {
       }
     }
 
-    //Copying only unique elements of my_array into array1
+    //Copying only unique elements of data into array1
 
-    int[] array1 = Arrays.copyOf(my_array, no_unique_elements);
+    int[] array1 = Arrays.copyOf(data, no_unique_elements);
 
     //Printing arrayWithoutDuplicates
 
@@ -131,5 +133,9 @@ public class FindMissingDigit {
 
     System.out.println("---------------------------");
     return array1;
-  }
+  }*/
+static int[] unique_array(int[] data)
+{
+ return Arrays.stream(data).distinct().toArray();
+}
 }

@@ -2,15 +2,22 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.12/48e4e5d60309ebd833bc528dcf77668eab3cd72c/lombok-1.18.12.jar" />
         </processorPath>
-        <module name="effectiveJava.test" />
-        <module name="effectiveJava.main" />
-        <module name="effectiveJava.katas.test" />
+        <module name="effectiveJava.trees.main" />
         <module name="effectiveJava.katas.main" />
+        <module name="effectiveJava.concurrency.test" />
+        <module name="effectiveJava.concurrency2.test" />
+        <module name="effectiveJava.katas.test" />
+        <module name="effectiveJava.concurrency2.main" />
+        <module name="effectiveJava.main" />
+        <module name="effectiveJava.concurrency.main" />
+        <module name="effectiveJava.test" />
+        <module name="effectiveJava.trees.test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />
