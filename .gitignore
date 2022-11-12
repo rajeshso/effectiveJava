@@ -1,7 +1,7 @@
 /katas/build/
-.gradle/
-.idea/
-build/
+.gradle/*
+.idea/*
+build/*
 /lambda/build/
 basics/build/classes/
 basics/build/generated/
@@ -21,4 +21,13 @@ lambda/build/generated/
 lambda/build/libs/
 lambda/build/tmp/compileJava/
 trees/build/
+basics/out/
+concurrency/out/
+concurrency2/out/
+katas/out/
+katas/build/
+lambda/out/
+nov2021/out/
+nov2022/
+trees/out/
 

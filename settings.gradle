@@ -5,4 +5,6 @@ include 'katas'
 include 'trees'
 include 'concurrency'
 include 'concurrency2'
+include 'nov2021'
+include 'nov2022'
 
