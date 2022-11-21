@@ -33,17 +33,17 @@ public class Brackets {
   int solution(String s) {
     Deque<Character> stack = new ArrayDeque<>();
     final char[] chars = s.toCharArray();
-    for (int i = 0; i < chars.length; i++) {
-      final char aChar = chars[i];
+    for (char aChar : chars) {
       if ((aChar =='{') || (aChar == '[') || (aChar=='(') ) {
-        stack.addLast(aChar);
-      } else if ((aChar == '}') || (aChar == ']') || (aChar == ')') ) {
-        if ( ( (stack.peek() == '{') && (aChar == '}') ) ||
-             ( (stack.peek() == '(') && (aChar == ')') ) ||
-            ( (stack.peek() == '[') && (aChar == ']') )
-           ) {
-          stack.pop();
-        }
+        stack.push(aChar);
+      } else if ((stack.peek() == '{') && (aChar == '}')) {
+        stack.pop();
+      }else if ((stack.peek() == '(') && (aChar == ')')) {
+        stack.pop();
+      }else if ((stack.peek() == '[') && (aChar == ']')) {
+        stack.pop();
+      }else {
+        return 0;
       }
     }
     if (stack.size()==0) {
