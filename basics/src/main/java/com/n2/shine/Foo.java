@@ -1,9 +1,9 @@
 package com.n2.shine;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public strictfp class Foo {
+//public strictfp class Foo {
+public class Foo {
   protected final static String myField = "Foo";
   protected  void myMethod() {
     System.out.println(myField + " from Foo");
@@ -17,7 +17,8 @@ public strictfp class Foo {
    }
   double num1 = 10e+102;
   double num2 = 6e+08;
-  strictfp double calculate() {
+  //strictfp double calculate() {
+  double calculate() {
     return num1 / num2;
   }
 }
@@ -64,17 +65,17 @@ class Bar extends Foo {
   }
   public static void main(String[] args) {
     Foo foo = new Foo();
-    System.out.println("Foo foo = new Foo() => "+foo.myField);
+    System.out.println("Foo foo = new Foo() => "+ Foo.myField);
     foo.myMethod();
-    foo.sleep();
+    Foo.sleep();
     Foo foo1 = new Bar();
-    System.out.println("Foo foo1 = new Bar(); => "+ foo1.myField);
+    System.out.println("Foo foo1 = new Bar(); => "+ Foo.myField);
     foo1.myMethod();
-    foo1.sleep();
+    Foo.sleep();
     Bar bar = new Bar();
     System.out.println("Bar bar = new Bar(); => "+ bar.myField);
     bar.myMethod();
-    bar.sleep();
+    sleep();
     bar.myMethod1(1);
     bar.myMethod1("String");
     System.out.println(bar.calculate());
