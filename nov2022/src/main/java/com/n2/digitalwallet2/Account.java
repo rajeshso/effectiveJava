@@ -7,6 +7,19 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * In case Account is persisted in the database, how can we ensure Account and its balance are safely updated ?
+ *
+ * If the Account object is persisted in a database, there are a few ways to ensure that it and its balance are safely updated:
+ *
+ * Use a transaction: When updating the account and its balance, wrap the database operations in a transaction. This ensures that either all the updates are applied or none of them are applied. If there is a failure during the update, the transaction will be rolled back, ensuring that the account and its balance remain unchanged.
+ *
+ * Use optimistic locking: When retrieving the account from the database, include a version number in the query. When updating the account and its balance, check that the version number of the retrieved account is the same as the one in the database. If they are the same, update the account and its balance and increment the version number. If they are not the same, it means that the account was updated by another process in the meantime, and the update should be aborted.
+ *
+ * Use pessimistic locking: Lock the account record in the database before updating it. This ensures that no other process can update the account while it is being updated. However, this approach can lead to contention and reduced performance, especially in high-concurrency scenarios.
+ *
+ * By using one or a combination of these approaches, you can ensure that the Account object and its balance are safely updated in a persisted scenario.
+ */
 @AllArgsConstructor
 @Getter
 @Setter

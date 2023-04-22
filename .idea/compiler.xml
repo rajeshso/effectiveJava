@@ -8,14 +8,16 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.26/8f8cf0372abf564913e9796623aac4c8ea44025a/lombok-1.18.26.jar" />
         </processorPath>
+        <module name="effectiveJava.katas.main" />
+        <module name="effectiveJava.katas.test" />
+        <module name="effectiveJava.nov2022.test" />
+        <module name="effectiveJava.nov2022.main" />
         <module name="effectiveJava.concurrency.main" />
         <module name="effectiveJava.main" />
         <module name="effectiveJava.trees.test" />
         <module name="effectiveJava.trees.main" />
-        <module name="effectiveJava.katas.main" />
         <module name="effectiveJava.nov2021.test" />
         <module name="effectiveJava.test" />
-        <module name="effectiveJava.katas.test" />
         <module name="effectiveJava.nov2021.main" />
         <module name="effectiveJava.concurrency2.main" />
         <module name="effectiveJava.concurrency.test" />
