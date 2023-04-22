@@ -1,0 +1,13 @@
+The Digital Wallet should be implemented in Java, and you should use object-oriented programming principles to organize your code.
+
+The wallet should be able to create user accounts, deposit and withdraw funds, and transfer funds between accounts.
+
+Each user account should have a unique identifier, such as an account number or username, and should store the user's balance.
+
+The Digital Wallet should validate user input and ensure that users cannot transfer more funds than they have available in their account.
+
+When a user transfers funds, the Digital Wallet should update the account balances for both the sender and the recipient.
+
+You should write unit tests to ensure that your code works as expected.
+
+It's a good idea to use a version control system, such as Git, to track changes to your code and collaborate with others.
