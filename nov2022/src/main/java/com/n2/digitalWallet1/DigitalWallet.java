@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
+//This is the better version of DigitalWalletSynchronized.java
 public class DigitalWallet {
   private final Map<String, Account> accounts;
   private final ReentrantLock renentrantLock = new ReentrantLock();

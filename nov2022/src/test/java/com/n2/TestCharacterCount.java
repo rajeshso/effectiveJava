@@ -36,6 +36,20 @@ public class TestCharacterCount {
     Arrays.stream(word.split("")).forEach(a -> result.compute(a, (k, v) -> v == null ? 1 : v + 1));
     return result;
   }
+  Map<String, Long> count4(String s) {
+    Map<String,Long> result;
+    result = Arrays.stream(s.split("")).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    return result;
+  }
+  Map<Character, Integer> count5(String s) {
+    return s.chars()
+        .mapToObj(c -> (char) c)
+        .collect(Collectors.toMap(
+            c -> c,//key Mapper
+            c -> 1, // value mapper
+            Integer::sum // merge function
+        ));
+  }
   
   @Test
   void simpleTestForCount1() {

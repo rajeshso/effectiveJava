@@ -1,14 +1,13 @@
 package com.n2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.Stack;
+import java.util.TreeMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 //https://app.codility.com/programmers/lessons/8-leader/dominator/
 //https://www.udemy.com/course/beat-the-codility-coding-interview-in-java/learn/lecture/14143087#overview
@@ -54,36 +53,34 @@ public class Dominator {
     final long count = Arrays.stream(a).filter(i -> i == possibleDominator).count();
     return count > len/2 ? possibleDominator: -1; //The stack will contain only the similar items
   }
-  int solutionWrong(int[] a) {
+  int solutionTry(int[] a) {
     int size = a.length;
     int halfTheSize = size/2;
-    List<Integer> dominators = new ArrayList<>();
-    Map<Integer, Integer> freq = findFreq(a);
-    final Set<Entry<Integer, Integer>> entries = freq.entrySet();
-    final Iterator<Entry<Integer, Integer>> iterator = entries.iterator();
+    Map<Integer, Integer> frequency = findFreq(a);
+    // Find the element with frequency greater than half the size
+    for (Map.Entry<Integer, Integer> entry : frequency.entrySet()) {
+      if (entry.getValue() > halfTheSize) {
+        return entry.getKey(); // Return the dominator
+      }
+    }
 
-    return 1;
+    return -1;
   }
 
   private Map<Integer, Integer> findFreq(int[] a) {
-    //Arrays.stream(a).boxed().collect(Coll)
-    //Arrays.stream(a).collect()
-    Map<Integer, Integer> result = new HashMap<>();
-    for (int j : a) {
-      final Integer value = result.get(j);
-      if (value == null) {
-        result.put(j, 1);
-      } else {
-        result.put(j, value + 1);
-      }
-    }
-    System.out.println(result);
-    return result;
+    final Map<Integer, Long> integerLongMap = Arrays.stream(a).boxed()
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    Comparator<Integer> valueComparator = (e1, e2) -> e1.compareTo(e2);
+    TreeMap<Integer, Long> sortedByValue = new TreeMap<>(valueComparator);
+    sortedByValue.putAll(integerLongMap);
+    return sortedByValue.entrySet().stream().collect(Collectors.toMap(Entry::getKey, e -> e.getValue().intValue()));
   }
 
   public static void main(String[] args) {
     Dominator dominator = new Dominator();
     int[] a = {1,2,4,1,2,3};
-    dominator.solution(a);
+    System.out.println("dominator.solution(a) =" + dominator.solution(a));
+    System.out.println("dominator.solutionEvenNicer(a) = " + dominator.solutionEvenNicer(a));
+    System.out.println("dominator.solutionTry(a) = " + dominator.solutionTry(a));
   }
 }

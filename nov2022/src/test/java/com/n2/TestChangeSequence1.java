@@ -2,6 +2,7 @@ package com.n2;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 
 //Given 1…..10, output should be 1,10,  2, 9,  3,8,  4,7 , 5,6
@@ -39,11 +40,12 @@ public class TestChangeSequence1 {
   }
 
   private static int[] createRange(int lo,int hi) {
-    int[] input = new int[hi-lo];
+    return IntStream.range(lo,hi).toArray();
+/*  int[] input = new int[hi-lo];
     int counter = 0;
     for (int i = lo; i < hi; i++) {
       input[counter++] = i;
     }
-    return input;
+    return input;*/
   }
 }

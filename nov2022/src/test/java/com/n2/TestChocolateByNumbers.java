@@ -13,8 +13,8 @@ public class TestChocolateByNumbers {
     List<Integer> eatenPositions = new ArrayList<>();
     int nextPosition;
     int currentPosition = 0;
-    eatenPositions.add(currentPosition);
-    nextPosition = (currentPosition+M)%N;
+    eatenPositions.add(currentPosition);//Let us eat the first chocolate
+    nextPosition = (currentPosition+M)%N;// if you ate chocolate number currentPosition, then you will next eat the chocolate with number (currentPosition+M)% modulo N (remainder of division).
     while(!eatenPositions.contains(nextPosition)) {
       eatenPositions.add(nextPosition);
       currentPosition = nextPosition;

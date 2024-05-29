@@ -11,9 +11,14 @@ public class CyclicRotation {
     }
     return result;
   }
-  int[] solution2(int[] a,int k) {
-
-    return a;
+  public int[] solution2(int[] a, int k) {
+    int n = a.length;
+    int[] result = new int[n];
+    for (int i = 0; i < n; i++) {
+      int destPos = (i + k) % n;
+      result[destPos] = a[i];
+    }
+    return result;
   }
 
 }
