@@ -1,12 +1,11 @@
 package com.n2;
 
 import static com.n2.Taskize.highlightedText;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
-//test cases to validate the functionality of the highlightedText method.
 public class TestTaskize {
 
   @Test
@@ -56,11 +55,8 @@ public class TestTaskize {
     String keywords = "keyword1 keyword2 keyword3 keyword4 keyword5 keyword6 keyword7 keyword8 keyword9 keyword10";
     keywords = keywords + " " + keywords.repeat(50); // Create a very long and repetitive keyword string
 
-    // Expect an OutOfMemoryError or handle it gracefully if the method can manage such input
     String finalText = text;
     String finalKeywords = keywords;
-    assertThrows(OutOfMemoryError.class, () -> {
-      highlightedText(finalText, finalKeywords, "hl");
-    });
+    assertDoesNotThrow(() -> highlightedText(finalText, finalKeywords, "hl"));
   }
 }
