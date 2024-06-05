@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Taskize {
 
@@ -20,39 +19,27 @@ public class Taskize {
    */
   public static String highlightedText(String text, String keywords, String highlightClassName) {
     // Split keywords into an array of words
-    String[] words = keywords.split(" ");//Potential for out of memory error if the keywords are too many
-
-    // Check if any keyword is present in the text (case-insensitive)
-    if (!Stream.of(words).anyMatch(word -> containsIgnoreCase(text, word))) {
-      // If no keywords are found, return the original text wrapped in a span
-      return new Span(text, null).toString();
-    }
-
-    // Initialize the starting index for searching
-    int index = 0;
-    // Create a list to hold parts of the text (highlighted and non-highlighted)
+    String[] words = keywords.split(" ");
     List<Span> parts = new ArrayList<>();
-
+    int index = 0;
+    int maxIterations = text.length() * words.length;  // Circuit Breaker - to prevent infinite loop
     // Loop to find and highlight each occurrence of the keywords in the text
-    while (indexOfIgnoreCase(text, findFirstMatchingKeyword(text, words, index), index) != -1) {//Continue looping as long as there are more occurrences of any keyword in the text starting from the current index.
+    for (int count = 0; index < text.length() && count < maxIterations; count++) {
       printMemoryUsage();  // Added this line to print memory usage
       // Find the first matching keyword from the current index
       String word = findFirstMatchingKeyword(text, words, index);
+      if (word == null) break;  // No more matches
       // Find the starting index of the found keyword in the text
       int startIndex = indexOfIgnoreCase(text, word, index);
-
+      if (startIndex == -1) break;  // No more matches
       // Add the non-highlighted part of the text before the found keyword
-      parts.add(new Span(text.substring(index, startIndex), null));// creates a new string representing the non-highlighted part of the text.
+      parts.add(new Span(text.substring(index, startIndex), null));
       // Move the index to the end of the found keyword
       index = startIndex + word.length();
-
-      // Add the highlighted part of the text (the found keyword)
-      parts.add(new Span(text.substring(startIndex, index), highlightClassName));//Another new string representing the highlighted part of the text is created and added to the list of parts. And the List grows with each iteration.
+      parts.add(new Span(text.substring(startIndex, index), highlightClassName));
     }
-
-    // Add any remaining part of the text after the last keyword
+    // Add the highlighted part of the text (the found keyword)
     parts.add(new Span(text.substring(index), null));
-
     // Combine all parts into a single string and return it
     return String.join("", parts.stream().map(Span::toString).toList());
   }
@@ -93,6 +80,7 @@ public class Taskize {
    * @param needle The keyword to search for.
    * @return True if the keyword is found, false otherwise.
    */
+  @Deprecated
   private static boolean containsIgnoreCase(String haystack, String needle) {
     return Pattern.compile(Pattern.quote(needle), Pattern.CASE_INSENSITIVE)//compiles a new regular expression pattern each time it is called.
         .matcher(haystack)
@@ -143,7 +131,7 @@ public class Taskize {
     Taskize test = new Taskize();
     String text = "aa bb aa";
 
-    // Keywords with a few spaces - List Growth: The while loop in highlightedText keeps processing and adding to the parts list without termination
+    // Keywords with a few spaces - potential for infinite loop should be fixed
     String keywords = "a a a a a  \n \n";
     highlightedText(text, keywords, "hl");
   }

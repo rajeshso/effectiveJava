@@ -50,4 +50,11 @@ public class TestTaskize {
     assertDoesNotThrow(() -> Taskize.highlightedText(finalText, finalKeywords, "hl"));
   }
 
+  @RepeatedTest(2)
+  public void testSpecialCharactersAndNewlines() {
+    String text = "abc-def\nabc-def\nabc-def";
+    String keywords = "abc-def \\t abc\ndef";
+    assertDoesNotThrow(() -> Taskize.highlightedText(text, keywords, "hl"));
+  }
+
 }
