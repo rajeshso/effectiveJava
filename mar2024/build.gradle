@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'com.n2'
@@ -23,4 +24,15 @@ dependencies {
     testImplementation("org.assertj:assertj-core:3.21.0")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.0")
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.11.2'
+}
+// use this command ./gradlew run -Dorg.gradle.jvmargs="-Xmx64m"
+/**
+ * You should get this error ``` FAILURE: Build failed with an exception.
+
+ * What went wrong:
+ Gradle build daemon has been stopped: since the JVM garbage collector is thrashing and the JVM is paused for long periods of time.     ```
+ */
+application {
+    mainClass = 'com.n2.Taskize'
+    applicationDefaultJvmArgs = ["-Xmx64m"]
 }

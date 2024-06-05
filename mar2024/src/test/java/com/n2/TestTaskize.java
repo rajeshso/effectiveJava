@@ -40,23 +40,14 @@ public class TestTaskize {
   }
   @RepeatedTest(2)
   public void testOutOfMemoryError() {
-    // Large text and keywords to simulate high memory usage
-    String text = "Real time data processing and RESTful microservices in Scala (Typelevel stack, Kafka, Cassandra, Kubernetes, GCP, AWS).\n"
-        + "• Good working knowledge of Akka HTTP and Akka Streams is required to support existing services.\n"
-        + "• Looking into how our personalisation services can evolve with machine learning.\n"
-        + "• Having the freedom to self-organise as part of a cross functional agile team.\n"
-        + "• Refining the team's processes to continuously integrate and working towards a deliverable application.\n"
-        + "• Championing best practices such as Pair Programming and TDD in order to develop clean, resilient code that performs at serious scale.\n"
-        + "• Coaching and providing feedback to fellow developers.\n"
-        + "• Growing our engineering culture which is focussed on DevOps and GitOps principles.";
-    text = text.repeat(1000); // Repeat to make the input significantly large
+    // Minimal text
+    String text = "aa bb aa";
 
-    // Keywords that are long and repetitive
-    String keywords = "keyword1 keyword2 keyword3 keyword4 keyword5 keyword6 keyword7 keyword8 keyword9 keyword10";
-    keywords = keywords + " " + keywords.repeat(50); // Create a very long and repetitive keyword string
-
+    // Keywords with a few spaces - List Growth: The while loop in highlightedText keeps processing and adding to the parts list without termination
+    String keywords = "a a a a a  \n \n";
     String finalText = text;
     String finalKeywords = keywords;
-    assertDoesNotThrow(() -> highlightedText(finalText, finalKeywords, "hl"));
+    assertDoesNotThrow(() -> Taskize.highlightedText(finalText, finalKeywords, "hl"));
   }
+
 }

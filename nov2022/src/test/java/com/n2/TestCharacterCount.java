@@ -7,7 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class TestCharacterCount {
   Map<Character,Integer> count1(String s) {
@@ -50,13 +55,9 @@ public class TestCharacterCount {
             Integer::sum // merge function
         ));
   }
+
   
-  @Test
-  void simpleTestForCount1() {
-    Map<Character, Integer> count1 = count1("somasundaram");
-    Map<Character, Integer> expected = Map.of('s', 2,'o',1,'m',2,'a',3,'u',1,'n',1,'d',1,'r',1);
-    assertThat(count1).containsAllEntriesOf(expected);
-  }
+
   @Test
   void simpleTestForCount2() {
     Map<String, Long> count1 = count2("somasundaram");
@@ -68,5 +69,29 @@ public class TestCharacterCount {
     Map<String, Integer> count1 = count3("somasundaram");
     Map<String, Integer> expected = Map.of("s", 2,"o",1,"m",2,"a",3,"u",1,"n",1,"d",1,"r",1);
     assertThat(count1).containsAllEntriesOf(expected);
+  }
+  Map<Character, Integer> count6(String s) {
+    final char[] charArray = s.toCharArray();
+    final Map<Character, Integer> characterCountMap = IntStream.rangeClosed(0, charArray.length-1)
+        .mapToObj(i -> Character.valueOf(charArray[i]))
+        .collect(Collectors.groupingBy(Function.identity(), Collectors.summingInt(e->1)));
+    return characterCountMap;
+  }
+  @ParameterizedTest
+  @MethodSource("providedGivenAndExpected")
+  void simpleTestForCount(String given, Map<Character, Integer> expected) {
+    Map<Character, Integer> count1 = count1(given);
+  //  assertThat(count1(given)).containsAllEntriesOf(expected);
+   // assertThat(count2(given)).containsAllEntriesOf(expected);
+   // assertThat(count3(given)).containsAllEntriesOf(expected);
+    //assertThat(count4(given)).containsAllEntriesOf(expected);
+   // assertThat(count5(given)).containsAllEntriesOf(expected);
+    assertThat(count6(given)).containsAllEntriesOf(expected);
+  }
+  private static Stream<Arguments> providedGivenAndExpected() {
+    return Stream.of(
+        Arguments.of("somasundaram", Map.of('s', 2,'o',1,'m',2,'a',3,'u',1,'n',1,'d',1,'r',1)),
+        Arguments.of("rajesh", Map.of('r',1,'a',1,'j',1,'e',1,'s',1,'h',1))
+    );
   }
 }

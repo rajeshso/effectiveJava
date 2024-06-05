@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  * If the amount is negative, then it was a card payment, otherwise it was an incoming transfer(amount atleast 0)
  * The date of each transaction is in the format "YYYY-MM-DD": for example, "2020-01-01" represents January 1, 2020.
  *
- * Additionaly, there is a fee for having a card (omitted in the given transaction list), which is 5 per month.
+ * Additionally, there is a fee for having a card (omitted in the given transaction list), which is 5 per month.
  * This fee is deducted from the account balance at the end of each month unless there were atleast three payments made by card for a total cost of atleast 100 within a month.
  *
  * Your task is to calculate the final balance of the account at the end of the year 2020.
