@@ -19,30 +19,34 @@ public class ImprovedRiskService extends RiskService {
 
   @Override
   public Map<String, Risk> calculateRisk(Set<Quote> quotes) {
-    LOGGER.info("Starting risk calculation...");
+    System.out.println("Starting risk calculation...");
     // Create a fixed thread pool with the number of available processors
     ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
 
     // Submit tasks for each quote to calculate beta and gamma in parallel
     for (Quote quote : quotes) {
-      if (quoteComplete.containsKey(quote.getSymbol()) && quoteComplete.get(quote.getSymbol()) > quote.getTime()) { // Skip quotes whose time is in the past
-        LOGGER.info("Skipping older timestamped quote for " + quote.getSymbol());
-        continue;
-      }
       executor.submit(() -> {
-        Risk risk = new Risk();
-        risk.setBeta(calculateBeta(quote));
-        risk.setGamma(calculateGamma(quote));
-        riskMap.put(quote.getSymbol(), risk);
-        LOGGER.info("Risk for " + quote.getSymbol() + ": " + risk);
+        quoteComplete.compute(quote.getSymbol(), (symbol, time) -> {
+          if (time == null || quote.getTime() > time) {
+            Risk risk = new Risk();
+            risk.setBeta(calculateBeta(quote));
+            risk.setGamma(calculateGamma(quote));
+            riskMap.put(symbol, risk);
+            LOGGER.info("Risk for " + symbol + ": " + risk);
+            return quote.getTime();
+          } else {
+            LOGGER.info("Skipping older timestamped quote for " + symbol);
+            return time;
+          }
+        });
       });
-      quoteComplete.put(quote.getSymbol(), quote.getTime());
     }
 
     // Shutdown the executor and wait for all tasks to complete
-    executor.shutdown();
+    executor.shutdown();//Call shutdown to signal the executor to stop accepting new tasks.
+    System.out.println("Risk calculation complete.");
     try {
-      executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+      executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);//Call awaitTermination to wait for the completion of the submitted tasks
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
@@ -52,32 +56,31 @@ public class ImprovedRiskService extends RiskService {
 
   @Override
   public String getRisk(String ticker) {
-    if (riskMap != null) {
-      Risk risk = riskMap.get(ticker);
-      if (risk != null) {
-        return risk.toString();
-      }
-    }
-    return "";
+    Risk risk = riskMap.get(ticker);
+    return risk != null ? risk.toString() : "";
   }
 
   //This is just a rough calculation. Don't need to focus on the actual calculation.
   private Double calculateGamma(Quote quote) {
-    // Placeholder for historical volatility of the market (replace with actual calculation)
+    try {
+      TimeUnit.MILLISECONDS.sleep(600);//Assume that the calculation of gamma takes 600 milliseconds
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
     double marketVolatility = 0.1;
-    // Placeholder for historical volatility of the specific quote (replace with actual calculation)
     double quoteVolatility = 0.2;
-
-    // Rough beta calculation based on volatility ratio
     return (quoteVolatility / marketVolatility) * quote.getValue();
   }
 
   //This is just a rough calculation. Don't need to focus on the actual calculation.
   private Double calculateBeta(Quote quote) {
-    // Placeholder for an indicator of delta sensitivity
+    try {
+      TimeUnit.MILLISECONDS.sleep(300);//Assume that the calculation of beta takes 300 milliseconds
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
     double deltaSensitivity = 0.3;
-
-    // Rough gamma based calculation on delta sensitivity
     return deltaSensitivity * quote.getValue();
   }
+
 }

@@ -10,19 +10,18 @@ package com.n2.l49;
  So if the application receives a bulk collection of ten quotes, it will take a total of 9 seconds to process them all.
  Assume the application will be running on a state-of-the-art multicore server that can handle hundreds of concurrent threads.
  */
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * This is the Simulator to drive the Risk Service System.
  */
 public class RiskServiceSimulator {
-  private final static Logger LOGGER = LoggerFactory.getLogger(RiskServiceSimulator.class);
+ // private final static Logger LOGGER = LoggerFactory.getLogger(RiskServiceSimulator.class);
   private static final int UPDATE_RISK_INTERVAL_SEC = 3;
   public static void main(String[] args) throws ExecutionException, InterruptedException {
 
@@ -47,12 +46,11 @@ public class RiskServiceSimulator {
 
       long startTime = System.currentTimeMillis();
       riskService.calculateRisk(quotes);
-      LOGGER.debug("Risk calculation returned in : " + (System.currentTimeMillis() - startTime) + " milliseconds");
+      System.out.println("Risk calculation returned in : " + (System.currentTimeMillis() - startTime) + " milliseconds");
 
-      LOGGER.info(riskService.getRisk("IBM"));
-      LOGGER.info(riskService.getRisk("MSFT"));
+      System.out.println(riskService.getRisk("IBM"));
+      System.out.println(riskService.getRisk("MSFT"));
     }, 0, UPDATE_RISK_INTERVAL_SEC, TimeUnit.SECONDS).get();
 
   }
-
 }
