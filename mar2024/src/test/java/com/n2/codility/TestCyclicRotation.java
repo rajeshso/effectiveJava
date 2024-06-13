@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * Write a function:
  *
- * class Solution { public int[] solution(int[] A, int K); }
+ * class Solution { public int[] solution1(int[] A, int K); }
  *
  * that, given an array A consisting of N integers and an integer K, returns the array A rotated K times.
  *
@@ -44,7 +44,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * N and K are integers within the range [0..100];
  * each element of array A is an integer within the range [−1,000..1,000].
- * In your solution, focus on correctness. The performance of your solution will not be the focus of the assessment.
+ * In your solution1, focus on correctness. The performance of your solution1 will not be the focus of the assessment.
  */
 public class TestCyclicRotation {
 
@@ -61,7 +61,7 @@ public class TestCyclicRotation {
   @ParameterizedTest
   @MethodSource("arguments")
   public void testSimple(int[] a, int k, int[] expected) {
- //   assertThat(solution(a,k)).containsExactly(expected);
+    assertThat(solution(a,k)).containsExactly(expected);
     assertThat(solutionOptimal1(a,k)).containsExactly(expected);
   }
   private int[] solution(int[] a, int k) {

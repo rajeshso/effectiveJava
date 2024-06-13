@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * the element at index 5 has value 7 and is unpaired.
  * Write a function:
  *
- * class Solution { public int solution(int[] A); }
+ * class Solution { public int solution1(int[] A); }
  *
  * that, given an array A consisting of N integers fulfilling the above conditions, returns the value of the unpaired element.
  *
@@ -82,8 +82,8 @@ public class TestOddOccurrencesInArray {
   }
 
   /**
-   * Optimal Solution A more optimal and commonly accepted solution uses the XOR bitwise operation.
-   * This solution is efficient both in terms of time and space complexity.
+   * Optimal Solution A more optimal and commonly accepted solution1 uses the XOR bitwise operation.
+   * This solution1 is efficient both in terms of time and space complexity.
    * <p>
    * Explanation The XOR operation has useful properties for this problem:
    * <p>

@@ -16,7 +16,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  * https://leetcode.com/problems/two-sum/
  * Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
  *
- * You may assume that each input would have exactly one solution, and you may not use the same element twice.
+ * You may assume that each input would have exactly one solution1, and you may not use the same element twice.
  *
  * You can return the answer in any order.
  *
@@ -71,10 +71,10 @@ public class TestTwoSum {
       }
       valueVsindicesMap.put(given[i],i);//If it is not, we store the number x and its index in the hash map.
     }
-    throw new IllegalArgumentException("No Two Sum");// If no solution is found, throw an exception
+    throw new IllegalArgumentException("No Two Sum");// If no solution1 is found, throw an exception
   }
 
-  //This solution fails for one edge case where there are duplicate numbers in the array
+  //This solution1 fails for one edge case where there are duplicate numbers in the array
   private int[] solution1(int[] given, int target) {
     List<Integer> sortedList = Arrays.stream(given).mapToObj(Integer::valueOf).sorted().collect(
         Collectors.toList());
