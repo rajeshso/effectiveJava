@@ -43,14 +43,17 @@ public class ImprovedRiskService extends RiskService {
     }
 
     // Shutdown the executor and wait for all tasks to complete
-    executor.shutdown();//Call shutdown to signal the executor to stop accepting new tasks.
-    System.out.println("Risk calculation complete.");
+    executor.shutdown();
     try {
-      executor.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);//Call awaitTermination to wait for the completion of the submitted tasks
+      if (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
+        executor.shutdownNow();
+      }
     } catch (InterruptedException e) {
+      executor.shutdownNow();
       Thread.currentThread().interrupt();
     }
 
+    LOGGER.info("Risk calculation complete.");
     return riskMap;
   }
 
