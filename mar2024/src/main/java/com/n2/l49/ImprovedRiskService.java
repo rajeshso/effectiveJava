@@ -15,7 +15,7 @@ public class ImprovedRiskService extends RiskService {
   private static final int NUM_THREADS = Runtime.getRuntime().availableProcessors();
   // Create a map to store the results
   Map<String, Risk> riskMap = new ConcurrentHashMap<>();
-  Map<String, Long> quoteComplete = new ConcurrentHashMap<>();
+  Map<String, Long> latestQuoteTimestamps = new ConcurrentHashMap<>();
 
   @Override
   public Map<String, Risk> calculateRisk(Set<Quote> quotes) {
@@ -26,27 +26,30 @@ public class ImprovedRiskService extends RiskService {
     // Submit tasks for each quote to calculate beta and gamma in parallel
     for (Quote quote : quotes) {
       executor.submit(() -> {
-        quoteComplete.compute(quote.getSymbol(), (symbol, time) -> {
-          if (time == null || quote.getTime() > time) {
+        latestQuoteTimestamps.compute(quote.getSymbol(), (symbol, existingTimestamp) -> {
+          Long newTimeStamp = quote.getTime();
+          System.out.println("Processing quote for " + symbol + " with timestamp: " + newTimeStamp);
+          if (existingTimestamp == null || newTimeStamp > existingTimestamp) { // If the quote is newer than the previous one
+            System.out.println("Accepting new quote for " + symbol + " with timestamp: " + newTimeStamp);
             Risk risk = new Risk();
             risk.setBeta(calculateBeta(quote));
             risk.setGamma(calculateGamma(quote));
             riskMap.put(symbol, risk);
-            LOGGER.info("Risk for " + symbol + ": " + risk);
-            return quote.getTime();
+            System.out.println("Risk for " + symbol + ": " + risk);
+            return newTimeStamp;
           } else {
-            LOGGER.info("Skipping older timestamped quote for " + symbol);
-            return time;
+            System.out.println("Skipping older timestamped quote for " + symbol + " with timestamp: " + newTimeStamp);
+            return existingTimestamp;
           }
         });
       });
     }
 
     // Shutdown the executor and wait for all tasks to complete
-    executor.shutdown();
+    executor.shutdown();// previously submitted tasks are executed, but no new tasks will be accepted.
     try {
-      if (!executor.awaitTermination(1, TimeUnit.MINUTES)) {
-        executor.shutdownNow();
+      if (!executor.awaitTermination(1, TimeUnit.MINUTES)) { // to block until all tasks have completed execution after a shutdown request, or the timeout occurs, or the current thread is interrupted, whichever happens first.
+        executor.shutdownNow();//If the executor does not terminate within the specified timeout (1 minute in this case), executor.shutdownNow() is called. This method attempts to stop all actively executing tasks, halts the processing of waiting tasks, and returns a list of the tasks that were waiting to be executed.
       }
     } catch (InterruptedException e) {
       executor.shutdownNow();
@@ -85,5 +88,4 @@ public class ImprovedRiskService extends RiskService {
     double deltaSensitivity = 0.3;
     return deltaSensitivity * quote.getValue();
   }
-
 }
