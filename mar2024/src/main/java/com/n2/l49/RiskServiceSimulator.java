@@ -29,7 +29,8 @@ public class RiskServiceSimulator {
     // calculates risk measures "beta" and "gamma", and saves the results so
     // that they can be queried later.
 
-    final RiskServiceInterface riskService = new ImprovedRiskService();
+    //final RiskServiceInterface riskService = new ImprovedRiskService();
+    final RiskServiceInterface riskService = new AnotherImprovedRiskService();
 
     // Try out the service by sending a batch of quotes every ten seconds
     new ScheduledThreadPoolExecutor(1).scheduleWithFixedDelay(() -> {

@@ -28,9 +28,11 @@ public class ImprovedRiskService extends RiskService {
       executor.submit(() -> {
         latestQuoteTimestamps.compute(quote.getSymbol(), (symbol, existingTimestamp) -> {
           Long newTimeStamp = quote.getTime();
-          System.out.println("Processing quote for " + symbol + " with timestamp: " + newTimeStamp);
+          System.out.println("Processing quote for " + symbol +
+              " with timestamp: " + newTimeStamp);
           if (existingTimestamp == null || newTimeStamp > existingTimestamp) { // If the quote is newer than the previous one
-            System.out.println("Accepting new quote for " + symbol + " with timestamp: " + newTimeStamp);
+            System.out.println("Accepting new quote for " + symbol
+                + " with timestamp: " + newTimeStamp);
             Risk risk = new Risk();
             risk.setBeta(calculateBeta(quote));
             risk.setGamma(calculateGamma(quote));

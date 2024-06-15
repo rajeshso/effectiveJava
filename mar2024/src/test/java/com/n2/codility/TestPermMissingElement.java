@@ -38,33 +38,22 @@ import org.junit.jupiter.params.provider.MethodSource;
  * each element of array A is an integer within the range [1..(N + 1)].
  */
 public class TestPermMissingElement {
-  //Mathematical solution
-  public int solution1(int[] A) {
+  // Mathematical solutionMy considering the correct approach of O(n) time complexity
+  public int solution2(int[] A) {
     int n = A.length;
-    //sort the array
-    final int[] sortedArray = Arrays.stream(A).distinct().sorted().toArray();
-    int head = sortedArray[0];//min value
-    int tail = sortedArray[n-1];//max value
-    //Calculate the expected sum
-    int expected = n*(n+1)/2; //TODO: Incorrect formula because we are not using the head and tail elements. Correct this
-    //Calculate the actual sum
-    int actual = Arrays.stream(sortedArray).sum();
-    //Calculate the difference expected-actual
-    int difference = expected-actual;
-    //If the difference is present (positive), then return the value
-    //If the difference is negative, then return -1, indicating that the input array is against the instructions given
-    //If the difference is zero, then return  actual+1
-    if (difference > 0) {
-      return difference;
-    } else if (difference == 0) {
-      return tail + 1; // Return n+1 if all elements are present
-    } else {
-      return -1;
+    // Expected sum of the first N+1 natural numbers
+    int expectedSum = (n + 1) * (n + 2) / 2;
+    // Actual sum of elements in the array
+    int actualSum = 0;
+    for (int num : A) {
+      actualSum += num;
     }
+    // The missing element
+    return expectedSum - actualSum;
   }
 
-  //Iterative solution
-  public int solution2(int[] A) {
+  //Iterative solutionMy with 2 loops, not efficient
+  public int solution1(int[] A) {
     int n = A.length;
     if (n==0) {
       return 1; //return one if it's an empty array
@@ -100,8 +89,8 @@ public class TestPermMissingElement {
         Arguments.of(new int[]{2,3,1,5,4,6,8},7),
         Arguments.of(new int[]{},1),
         Arguments.of(new int[]{1},2),
-        Arguments.of(new int[]{-2,-3,-1,-5,-4,-6,-8},-7),
-        Arguments.of(new int[]{-2,-3,-1,-5,-4,-6,-8,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21},-7),//test case with both negative and positive integers
+        Arguments.of(new int[]{-2,-3,-1,-5,-4,-6,-8},-7),//you can ignore this test case because the requirement states that the elements are in the range [1..(N + 1)]
+        Arguments.of(new int[]{-2,-3,-1,-5,-4,-6,-8,0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21},-7),//you can ignore this test case because the requirement states that the elements are in the range [1..(N + 1)]
         Arguments.of(new int[]{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21},20)
     );
   }
