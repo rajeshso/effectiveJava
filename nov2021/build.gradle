@@ -4,7 +4,6 @@ plugins {
 
 group 'com.n2'
 version '1.0-SNAPSHOT'
-sourceCompatibility = 19.0
 repositories {
     mavenCentral()
 }

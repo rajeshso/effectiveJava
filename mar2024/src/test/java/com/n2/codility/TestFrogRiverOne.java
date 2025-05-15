@@ -79,6 +79,9 @@ public class TestFrogRiverOne {
     //In case all of leafedIndex is !true, return -1 else return the result calculated in the above index
     return isLeafedIndexAnyFalse(leafedIndex)? -1 : (currentIndex-1);
   }
+  Boolean isLeafedIndexAnyFalse(final Boolean[] leafedIndex) {
+    return Arrays.stream(leafedIndex).anyMatch(l-> !l);
+  }
   //O(n) time and O(1) space
   public int solutionOptimal(int X, int[] A) {
     //X is the number of steps/positions needed to cross
@@ -103,9 +106,7 @@ public class TestFrogRiverOne {
     return -1;//If the loop completes without covering all positions, return -1.
   }
 
-  Boolean isLeafedIndexAnyFalse(final Boolean[] leafedIndex) {
-    return Arrays.stream(leafedIndex).anyMatch(l-> !l);
-  }
+
   @ParameterizedTest
   @MethodSource("source")
   public void testSimple(int X, int[] A, int expected) {

@@ -1,33 +1,22 @@
-/katas/build/
-.gradle/*
-.idea/*
-build/*
-/lambda/build/
-basics/build/classes/
-basics/build/generated/
-basics/build/libs/
-basics/build/tmp/compileJava/
+# Gradle files
+.gradle/
+**/build/
 gradle/wrapper/gradle-wrapper.jar
-katas/build/classes/
-katas/build/generated/
-katas/build/libs/
-katas/build/reports/tests/test/classes/com.n2.arrays.TestDiagram.html
-katas/build/reports/tests/test/packages/com.n2.arrays.html
-katas/build/test-results/test/TEST-com.n2.arrays.TestDiagram.xml
-katas/build/tmp/compileJava/
-katas/build/tmp/compileTestJava/
-lambda/build/classes/
-lambda/build/generated/
-lambda/build/libs/
-lambda/build/tmp/compileJava/
-trees/build/
-basics/out/
-concurrency/out/
-concurrency2/out/
-katas/out/
-katas/build/
-lambda/out/
-nov2021/out/
-trees/out/
-nov2022/build/
-nov2022/out/
+
+# IDE files
+.idea/
+**/out/
+
+# Specific build directories
+/katas/build/*
+/lambda/build/
+/basics/build/
+/concurrency/build/
+/concurrency2/build/
+/trees/build/
+/nov2021/build/
+/nov2022/build/
+/mar2024/build/
+
+# Output directories
+**/out/

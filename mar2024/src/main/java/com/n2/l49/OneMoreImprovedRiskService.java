@@ -7,29 +7,33 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class AnotherImprovedRiskService implements RiskServiceInterface {
+public class OneMoreImprovedRiskService implements RiskServiceInterface {
 
+  private final static int NUM_THREADS = Runtime.getRuntime().availableProcessors();
   private final Map<String, Risk> riskMap = new ConcurrentHashMap<>();
   private final Map<String, Long> latestQuoteTimestamps = new ConcurrentHashMap<>();
 
   @Override
   public Map<String, Risk> calculateRisk(Set<Quote> quotes) {
-    System.out.println("Starting parallel risk calculation of the quotes ");
-    //Create a fixed thread pool
-    ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-    //submit tasks for each quote to calculate beta and gamma in parallel
+    System.out.println("Starting the parallel execution of quotes ");
+    //create a fixed thread pool
+    ExecutorService executor = Executors.newFixedThreadPool(NUM_THREADS);
+    //Submit tasks for each quote to calculate beta and gamma in parallel
     for (Quote quote : quotes) {
+
       executor.submit(() -> {
-        latestQuoteTimestamps.compute(quote.getSymbol(),(symbol, existingTimeStamp)->{
+        latestQuoteTimestamps.compute(quote.getSymbol(),(symbol,existingTimeStamp) -> {
           Long newTimeStamp = quote.getTime();
-          if (existingTimeStamp == null || newTimeStamp > existingTimeStamp) { //If the new quote is much newer than the earlier, please calculate
-            System.out.println("Accepting the quote for the calculation for "+quote.getSymbol() + " because the given timestamp "+newTimeStamp +" is much newer");
+          if (newTimeStamp> existingTimeStamp) {
+            System.out.println("Accepting the quote for the calculation for " + quote.getSymbol()
+                + " because the given timestamp " + newTimeStamp + " is much newer");
             Risk risk = new Risk();
             risk.setBeta(calculateBeta(quote));
             risk.setGamma(calculateGamma(quote));
-            System.out.println("The Risk for symbol "+risk);
+            System.out.println("The Risk for symbol " + risk);
           }else {
-            System.out.println("Skipping the calculation for "+quote.getSymbol() + " because the given timestamp "+newTimeStamp +" is obsolete");
+            System.out.println("Skipping the calculation for " + quote.getSymbol()
+                + " because the given timestamp " + newTimeStamp + " is obsolete");
           }
           return newTimeStamp;
         });
@@ -41,24 +45,25 @@ public class AnotherImprovedRiskService implements RiskServiceInterface {
         risk.setGamma(calculateGamma(quote));
         riskMap.put(quote.getSymbol(),risk);
         System.out.println("Risk for "+quote.getSymbol()+" is "+risk);
-      });*/
+      });
+    }*/
     }
-    //Shutdown the executor and wait for all existing tasks to complete
+    //shutdown the executor and wait for all existing tasks to complete
     executor.shutdown();
     //block until all tasks are completed
     try {
       executor.awaitTermination(1, TimeUnit.MINUTES);
-    }catch (InterruptedException exception) {
+    } catch (InterruptedException e) {
       executor.shutdownNow();
     }
     return riskMap;
   }
 
-
   @Override
   public String getRisk(String ticker) {
     return riskMap.get(ticker) == null ? "" : riskMap.get(ticker).toString();
   }
+
   //This is just a rough calculation. Don't need to focus on the actual calculation.
   private Double calculateGamma(Quote quote) {
     try {
@@ -82,3 +87,5 @@ public class AnotherImprovedRiskService implements RiskServiceInterface {
     return deltaSensitivity * quote.getValue();
   }
 }
+
+
