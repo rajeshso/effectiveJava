@@ -3,12 +3,14 @@ package com.n2.codility;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
+import java.util.stream.Stream;
 
 //https://app.codility.com/programmers/lessons/2-arrays/cyclic_rotation/
 public class TestCyclicRotation1 {
 
-  //int[] arr = {5,3,4,1,2}
   public static int[] solution(int[] A, int K) {
     int len = A.length;
     int[] result = new int[A.length];
@@ -21,16 +23,18 @@ public class TestCyclicRotation1 {
     return result;
   }
 
-  @Test
-  public void testCycleRotate5() {
-    int[] arr = {5, 3, 4, 1, 2};
-    assertThat(solution(arr, 5)).isEqualTo(new int[]{5, 3, 4, 1, 2});
+  static Stream<Arguments> rotationProvider() {
+    return Stream.of(
+      Arguments.of(new int[]{5, 3, 4, 1, 2}, 5, new int[]{5, 3, 4, 1, 2}),
+      Arguments.of(new int[]{5, 3, 4, 1, 2}, 2, new int[]{1, 2, 5, 3, 4}),
+      Arguments.of(new int[]{1, 2, 3, 4}, 1, new int[]{4, 1, 2, 3})
+    );
   }
 
-  @Test
-  public void testCycleRotate2() {
-    int[] arr = {5, 3, 4, 1, 2};
-    assertThat(solution(arr, 2)).isEqualTo(new int[]{1, 2, 5, 3, 4});
+  @ParameterizedTest
+  @MethodSource("rotationProvider")
+  void testCycleRotate(int[] arr, int k, int[] expected) {
+    assertThat(solution(arr, k)).isEqualTo(expected);
   }
 }
 /**

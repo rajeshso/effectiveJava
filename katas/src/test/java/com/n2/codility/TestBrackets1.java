@@ -4,7 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 //https://app.codility.com/programmers/lessons/7-stacks_and_queues/brackets/
 public class TestBrackets1 {
@@ -55,9 +59,39 @@ public class TestBrackets1 {
         if (stack.isEmpty() || stack.pop() != '[') {
           return -1;
         }
+      } else {
+        return -1;
       }
     }
-    return stack.isEmpty() ? 0 : -1;
+    if (!stack.isEmpty()) {
+      return -1;
+    }
+    return 0;
+  }
+
+  static Stream<Arguments> bracketProvider() {
+    return Stream.of(
+      Arguments.of("{[()()]}", 0),
+      Arguments.of("([)()]", -1),
+      Arguments.of("", 0),
+      Arguments.of("((()))", 0),
+      Arguments.of("((())", -1),
+      Arguments.of("([{}])", 0),
+      Arguments.of("([{}]))", -1),
+      Arguments.of("abc", -1)
+    );
+  }
+
+  @ParameterizedTest
+  @MethodSource("bracketProvider")
+  void testSolution1(String input, int expected) {
+    assertThat(solution1(input)).isEqualTo(expected);
+  }
+
+  @ParameterizedTest
+  @MethodSource("bracketProvider")
+  void testSolution2(String input, int expected) {
+    assertThat(solution2(input)).isEqualTo(expected);
   }
 
   @Test

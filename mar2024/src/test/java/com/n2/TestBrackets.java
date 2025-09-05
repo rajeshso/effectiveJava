@@ -4,7 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Stack;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class TestBrackets {
   public boolean isValid(String s) {
@@ -31,30 +34,28 @@ public class TestBrackets {
         (start == '[' && end == ']');
   }
 
+  static Stream<Arguments> bracketProvider() {
+    return Stream.of(
+      Arguments.of("({[]})", true),
+      Arguments.of("()", true),
+      Arguments.of("()[]{}", true),
+      Arguments.of("([)]", false),
+      Arguments.of("((({{{[[[]]]}}})))", true),
+      Arguments.of("([{}])", true),
+      Arguments.of("([{})]", false),
+      Arguments.of("", true),
+      Arguments.of("(", false),
+      Arguments.of(")", false)
+    );
+  }
 
-//({[]}) this is also true
-  @Test
-  public void testSimple1() {
-    String input = "({[]})";
-    boolean actual = isValid(input);
-    assertTrue(actual);
-  }
-  @Test
-  public void testSimple2() {
-    String input = "()";
-    boolean actual = isValid(input);
-    assertTrue(actual);
-  }
-  @Test
-  public void testSimple3() {
-    String input = "()[]{}";
-    boolean actual = isValid(input);
-    assertTrue(actual);
-  }
-  @Test
-  public void testSimple4() {
-    String input = "(]";
-    boolean actual = isValid(input);
-    assertFalse(actual);
+  @ParameterizedTest
+  @MethodSource("bracketProvider")
+  void testIsValid(String input, boolean expected) {
+    if (expected) {
+      assertTrue(isValid(input));
+    } else {
+      assertFalse(isValid(input));
+    }
   }
 }

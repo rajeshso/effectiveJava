@@ -18,15 +18,13 @@ public class Equilibirum {
       leftSum+=s[i];
       rightSum-=s[i];
     }
-    System.out.println(balance + " occurs at position "+pivot);
-    return pivot;
+    return balance;
   }
   //O(N^2)
   public static int solution1(int[] s) {
-    int pivot = -1;
     int balance=Integer.MAX_VALUE;
     int len = s.length;
-    for (int i = 0; i < len; i++) {
+    for (int i = 1; i < len; i++) {
       int rightSum = 0;
       int leftSum = 0;
       for (int j = 0; j < i; j++) {
@@ -37,10 +35,8 @@ public class Equilibirum {
       }
       if (Math.abs(rightSum-leftSum)<balance) {
         balance = Math.abs(rightSum-leftSum);
-        pivot = i;
       }
     }
-    System.out.println(balance + " occurs at position "+pivot);
-    return pivot;
+    return balance;
   }
 }

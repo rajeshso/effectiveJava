@@ -1,33 +1,39 @@
 package com.n2.excercises;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HiddenWordTest {
 
-  @Test
-  void test1() {
-    HiddenWord hiddenWord = new HiddenWord("HARPS");
-    assert(hiddenWord.getHint("AAAAA")).equals("+A+++");
-    assert(hiddenWord.getHint("HELLO")).equals("H****");
-    assert(hiddenWord.getHint("HEART")).equals("H*++*");
-    assert(hiddenWord.getHint("HARMS")).equals("HAR*S");
-    assert(hiddenWord.getHint("HARPS")).equals("HARPS");
+  static Stream<Arguments> hiddenWordProvider() {
+    return Stream.of(
+      Arguments.of("HARPS", "AAAAA", "+A+++"),
+      Arguments.of("HARPS", "HELLO", "H****"),
+      Arguments.of("HARPS", "HEART", "H*++*"),
+      Arguments.of("HARPS", "HARMS", "HAR*S"),
+      Arguments.of("HARPS", "HARPS", "HARPS"),
+      Arguments.of("HARPS", "aaaaa", "+A+++"),
+      Arguments.of("laptop", "laptop", "LAPTOP"),
+      Arguments.of("laptop", "lappot", "LAP+O+"),
+      Arguments.of("laptop", "DUKTOP", "***TOP"),
+      Arguments.of("laptop", "      ", "******"),
+      Arguments.of("new york", "new york", "NEW YORK"),
+      Arguments.of("new york", "wen york", "+E+ YORK"),
+      Arguments.of("new york", " wenyork", "++++YORK"),
+      Arguments.of("new york", "new yort", "NEW YOR*"),
+      Arguments.of("new york", "12345678", "********"),
+      Arguments.of("new york", "bad", "")
+    );
   }
-  @Test
-  void test2() {
-    HiddenWord hiddenWord = new HiddenWord("HARPS");
-    assert(hiddenWord.getHint("aaaaa")).equals("+A+++");
-    hiddenWord = new HiddenWord("laptop");
-    assert(hiddenWord.getHint("laptop")).equals("LAPTOP");
-    assert(hiddenWord.getHint("lappot")).equals("LAP+O+");
-    assert(hiddenWord.getHint("DUKTOP")).equals("***TOP");
-    assert(hiddenWord.getHint("      ")).equals("******");
-    hiddenWord = new HiddenWord("new york");
-    assert(hiddenWord.getHint("new york")).equals("NEW YORK");
-    assert(hiddenWord.getHint("wen york")).equals("+E+ YORK");
-    assert(hiddenWord.getHint(" wenyork")).equals("++++YORK");
-    assert(hiddenWord.getHint("new yort")).equals("NEW YOR*");
-    assert(hiddenWord.getHint("12345678")).equals("********");
-    assert(hiddenWord.getHint("bad")).equals("");
+
+  @ParameterizedTest
+  @MethodSource("hiddenWordProvider")
+  void testGetHint(String hidden, String guess, String expected) {
+    HiddenWord hiddenWord = new HiddenWord(hidden);
+    assertThat(hiddenWord.getHint(guess)).isEqualTo(expected);
   }
 }

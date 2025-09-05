@@ -3,7 +3,10 @@ package com.n2;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.Arguments;
+import java.util.stream.Stream;
 
 /**
  * Given an ascendingly sorted array A of integers of length n and an integer X, determine whether it contains two distinct elements A[i] and A[j] such that A[i] + A[j] = X
@@ -24,28 +27,25 @@ public class TestConditionInSequence {
     }
     return false;
   }
-  @Test
-  void testSimple() {
-    int[] a = {1,2,3,4,5,6,7,8,9,10};
-    int x = 17;
-    assertTrue(solution(a, x));
+
+  static Stream<Arguments> sequenceProvider() {
+    return Stream.of(
+      Arguments.of(new int[]{1,2,3,4,5,6,7,8,9,10}, 17, true),
+      Arguments.of(new int[]{1,2,3,4,5,6,7,8,9,10}, 19, true),
+      Arguments.of(new int[]{1,2,3,4,5,6,7,8,9,10}, 21, false),
+      Arguments.of(new int[]{1,2,3,4,5,6,7,8,9,10}, -1, false),
+      Arguments.of(new int[]{2,4,6,8,10}, 12, true),
+      Arguments.of(new int[]{2,4,6,8,10}, 3, false)
+    );
   }
-  @Test
-  void testSimple1() {
-    int[] a = {1,2,3,4,5,6,7,8,9,10};
-    int x = 19;
-    assertTrue(solution(a, x));
-  }
-  @Test
-  void testSimple2() {
-    int[] a = {1,2,3,4,5,6,7,8,9,10};
-    int x = 21;
-    assertFalse(solution(a, x));
-  }
-  @Test
-  void testSimple3() {
-    int[] a = {1,2,3,4,5,6,7,8,9,10};
-    int x = -1;
-    assertFalse(solution(a, x));
+
+  @ParameterizedTest
+  @MethodSource("sequenceProvider")
+  void testSolution(int[] a, int x, boolean expected) {
+    if (expected) {
+      assertTrue(solution(a, x));
+    } else {
+      assertFalse(solution(a, x));
+    }
   }
 }

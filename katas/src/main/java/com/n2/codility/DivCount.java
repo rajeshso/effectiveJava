@@ -31,16 +31,6 @@ public class DivCount {
   }
 
   public static int solution2(int a, int b, int k) {
-    int result = 0;
-    int indexOfKMultiple = 0;
-    for (int i = a; i <=b ; i++) {
-      indexOfKMultiple++;
-      if (i%k == 0) {
-        break;
-      }
-    }
-    indexOfKMultiple++;
-    result = ((b-a+1)/indexOfKMultiple);
-    return result;
+    return b/k - (a == 0 ? 0 : (a-1)/k);
   }
 }

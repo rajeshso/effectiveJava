@@ -3,17 +3,19 @@ package com.n2.arrays;
 import static org.assertj.core.api.Assertions.*;
 
 import com.n2.arrays.ReverseInteger;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 public class TestReverseInteger {
 
-  @Test
-  public void test123() {
-    assertThat(ReverseInteger.reverse(123)).isEqualTo(321);
-  }
-
-  @Test
-  public void test2020() {
-    assertThat(ReverseInteger.reverse(2020)).isEqualTo(202);
+  @ParameterizedTest
+  @CsvSource({
+    "123, 321",
+    "2020, 202",
+    "0, 0",
+    "-123, -321"
+  })
+  void testReverse(int input, int expected) {
+    assertThat(ReverseInteger.reverse(input)).isEqualTo(expected);
   }
 }
