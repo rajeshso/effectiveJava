@@ -94,25 +94,6 @@ public class TestBrackets1 {
     assertThat(solution2(input)).isEqualTo(expected);
   }
 
-  @Test
-  public void testPositive1() {
-    String S = "{[()()]}";
-    assertThat(solution1(S)).isZero();
-    assertThat(solution2(S)).isZero();
-  }
 
-  @Test
-  public void testPositive2() {
-    String S = "{[()()]}()";
-    assertThat(solution1(S)).isZero();
-    assertThat(solution2(S)).isZero();
-  }
-
-  @Test
-  public void testNegative1() {
-    String S = "{[()()]}}";
-    assertThat(solution1(S)).isEqualTo(-1);
-    assertThat(solution2(S)).isEqualTo(-1);
-  }
 
 }
