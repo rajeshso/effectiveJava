@@ -27,6 +27,9 @@ public class RemoveDups {
   public static int[] removeDups1(int[] a) {
     return Arrays.stream(a).distinct().toArray();
   }
+  public static int[] removeDups2(int[] a) {
+    return Arrays.stream(a).distinct().toArray();
+  }
   private static void print(int[] a) {
     System.out.println(Arrays.toString(a));
   }

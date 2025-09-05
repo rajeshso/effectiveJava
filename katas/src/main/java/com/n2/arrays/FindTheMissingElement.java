@@ -47,4 +47,22 @@ public class FindTheMissingElement {
     return (s*(s+1))/2;
   }
 
+
+  public static int solution2(int[] s) {
+    return switch (s.length) {
+      case 0 -> 0;
+      case 1 -> s[0] + 1;
+      default -> {
+        Arrays.sort(s);
+        int previous = s[0];
+        for (int i = 1; i < s.length; i++) {
+          if (s[i] != previous + 1) {
+            yield previous + 1;
+          }
+          previous = s[i];
+        }
+        yield s[s.length - 1] + 1;
+      }
+    };
+  }
 }

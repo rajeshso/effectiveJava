@@ -2,6 +2,7 @@ package com.n2.arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 public class TestAverageAndSumOfElements {
@@ -27,5 +28,10 @@ public class TestAverageAndSumOfElements {
 
   private int average(int[] a) {
     return sum(a)/a.length;
+  }
+
+  private int myavg(int[] a) {
+    final int sum = Arrays.stream(a).sum();
+    return sum/a.length;
   }
 }
