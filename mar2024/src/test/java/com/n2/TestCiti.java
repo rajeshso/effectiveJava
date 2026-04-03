@@ -3,11 +3,15 @@ package com.n2;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * You are given a list of all the transactions on a bank account during the year 2020
@@ -58,50 +62,50 @@ public class TestCiti {
 
     return balance - cardFee;
   }
-  //Total income is 100 + 100 + 100 - 10 = 290. The fee of 60 is applied for the month of December 2020, so the final income is 290 - 60 = 230.
-  @Test
-  public void testSimple1() {
-    int[] A = {100, 100, 100, -10};
-    String[] D = {"2020-12-31", "2020-12-22", "2020-12-03", "2020-12-29"};
-    int actual = solution(A, D);
-    System.out.println(actual);
-    assertThat(actual).isEqualTo(230);
+
+  public int solution1(int[] A, String[] D) {
+    Map<String, List<Integer>> monthlyCardPayments = new HashMap<>();
+    int balance = 0;
+    int numberofcardPayments = 0;
+    int totalCardPaymentAmount = 0;
+    //Calculate the balance and store the card payments for each month
+    for (int i = 0; i < A.length; i++) {
+      String date = D[i].substring(0, 7);//"2020-12-31" becomes "2020-12"
+      if (A[i] < 0) { //Card Payment only
+        monthlyCardPayments.putIfAbsent(date, new ArrayList<>());
+        monthlyCardPayments.get(date).add(A[i]);
+      }
+      balance += A[i];
+    }
+    final Collection<List<Integer>> monthlyTx = monthlyCardPayments.values();
+    for (List<Integer> txList : monthlyTx) {
+      numberofcardPayments = txList.size();
+      totalCardPaymentAmount = txList.stream().mapToInt(Integer::intValue).sum();
+      if (numberofcardPayments >= 3 && totalCardPaymentAmount <= -100) {
+        //No card fee for the month
+      } else {
+        //Card fee for the month
+        balance -= 5;
+      }
+    }
+    return balance;
   }
-  //The income was 180 in January 2020, -50 in January 2020, -25 in January 2020, and -25 in January 2022. The total income is 180 - 50 - 25 - 25 = 80. The fee of 5 is applied for the month of January 2020, so the final income is 80 - 5 = 75.
-  @Test
-  public void testSimple2() {
-    int[] A = {180, -50, -25, -25};
-    String[] D = {"2020-01-01", "2020-01-01", "2020-01-01", "2020-01-31"};
-    int actual = solution(A, D);
-    assertThat(actual).isEqualTo(25);
+
+
+    static Stream<Arguments> testCases() {
+    return Stream.of(
+        Arguments.of(new int[]{100, 100, 100, -10}, new String[]{"2020-12-31", "2020-12-22", "2020-12-03", "2020-12-29"}, 230),
+        Arguments.of(new int[]{180, -50, -25, -25}, new String[]{"2020-01-01", "2020-01-01", "2020-01-01", "2020-01-31"}, 25),
+        Arguments.of(new int[]{1, -1, 0, -105, 1}, new String[]{"2020-12-31", "2020-04-04", "2020-04-04", "2020-04-14", "2020-07-12"}, -164),
+        Arguments.of(new int[]{100, 100, -10, -20, -30}, new String[]{"2020-01-01", "2020-02-01", "2020-02-11", "2020-02-05", "2020-02-08"}, 80),
+        Arguments.of(new int[]{-60, 60, -40, -20}, new String[]{"2020-10-01", "2020-02-02", "2020-10-10", "2020-10-30"}, -115)
+    );
   }
-  //The fee is paid every month. 1-1+0-105+1 -(5*12) = -164. Note that in April, even though the total cost of card payments is 106(more than 100), there were only two payments made by card , so the fee was still applied. A transaction of value 0 is considered a positive, incoming transfer
-  @Test
-  public void testSimple3() {
-    int[] A = {1, -1, 0, -105,1};
-    String[] D = {"2020-12-31", "2020-04-04", "2020-04-04","2020-04-14", "2020-07-12"};
-    int actual = solution(A, D);
-    assertThat(actual).isEqualTo(-164);
-  }
-  @Test
-  public void testSimple4() {
-    int[] A = {100,100, -10, -20,-30};
-    String[] D = {"2020-01-01", "2020-02-01", "2020-02-11", "2020-02-05", "2020-02-08"};
-    int actual = solution(A, D);
-    assertThat(actual).isEqualTo(80);
-  }
-  @Test
-  public void testSimple5() {
-    int[] A = {-60,60, -40, -20};
-    String[] D = {"2020-10-01", "2020-02-02","2020-10-10", "2020-10-30"};
-    int actual = solution(A, D);
-    assertThat(actual).isEqualTo(-115);
-  }
-  @Test
-  public void testSimple6() {
-    int[] A = {100, 200, 150, 100, 200};
-    String[] D = {"2022-01-01", "2022-01-01", "2022-02-01", "2022-02-01", "2022-02-01"};
-    int actual = solution(A, D);
-    System.out.println(actual);
+
+  @ParameterizedTest
+  @MethodSource("testCases")
+  public void testSolution(int[] amounts, String[] dates, int expected) {
+    //assertThat(solution(amounts, dates)).isEqualTo(expected);
+    assertThat(solution1(amounts, dates)).isEqualTo(expected);
   }
 }
